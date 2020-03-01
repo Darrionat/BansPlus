@@ -1,0 +1,33 @@
+name: BansPlus
+main: me.Darrionat.BansPlus.Main
+description: A banning plugin made simple
+version: 1.0
+api-version: 1.13
+author: Darrionat
+
+commands:
+  ban:
+    aliases: [pban]
+    usage: </command> user reason
+  tempban:
+    aliases: [ptempban]
+    usage: </command> user time reason
+  ipban:
+    aliases: [pipban]
+    usage: </command> ip reason
+  unban:
+    aliases: [punban]
+    usage: </command> player/ip
+    
+permissions:
+  bansplus.*:
+    description: Gives access to all Punishments commands
+    children:
+      bansplus.ban: true
+      bansplus.ipban: true
+  bansplus.ban:
+    description: Allows a player to ban other players
+    default: op
+  bansplus.ban:
+    description: Allows a player to ban an ip
+    default: op

@@ -1,0 +1,43 @@
+GUI Name: "Ban Player"
+Ban Opped Players: false
+IP Ban Opped Players: false
+
+#Ban-Message-Placeholders
+# %bannedby% - Shows playername or Console
+# %startdate% - Shows the date the ban started
+# %enddate% - Shows the date the ban ends
+# %timeleft% - Time Left
+# %reason% - Shows the ban reason
+# %uuid% - Shows the banned player's uuid
+
+#This is what the player will see when banned
+Ban Message:
+    - "&cYou have been banned from &6Your Network"
+    - "&cBan Reason: %reason%"
+    - " "
+    - "&cBan Start: %startdate%"
+    - "&cBan End: %enddate%"
+    - "&cTime Remaining: %timeleft%"
+    - "&cYou may appeal here www.yoursite.com"
+    - "&cBanned By: %bannedby%"
+
+#These messages will show in chat or in console
+Messages:
+    Permanent Ban: "&c%name% &awas permanently banned for &c%reason%"
+    Temporary Ban: "&c%name% &awas temporarily banned for &c%reason% &afor %time%"
+    IP Ban: "&cThe IP: %ip% &awas permanently banned for &c%reason%"
+    Incorrect Usage Prefix: "&6Correct Usage&7"
+    Invalid Player: "&c%name% is not a valid player"
+    Player Is Op: "&cThat player is opped and cannot be banned!"
+    Unban DNE: "&cThat player or IP is not banned!"
+    Unban Successful: "&a%player% has been unbanned successfully."
+
+#Optional: MySQL Connection (Recommended)
+#Tables will automatically be created
+MySQL:
+    Enabled: false
+    host: localhost
+    port: 3306
+    database: name
+    username: root
+    password: password
