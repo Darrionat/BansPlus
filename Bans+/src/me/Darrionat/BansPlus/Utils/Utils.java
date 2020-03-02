@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import org.bukkit.ChatColor;
@@ -51,6 +52,12 @@ public class Utils {
 
 	}
 
+	public static String IPbanMessage(JavaPlugin plugin, String ip) {
+
+		return null;
+
+	}
+
 	public static String banMessage(JavaPlugin plugin, String bPlayerUUID) {
 		FileConfiguration config = plugin.getConfig();
 		List<String> banMessageList = config.getStringList("Ban Message");
@@ -76,29 +83,29 @@ public class Utils {
 		String endDateString = "";
 		if (plugin.mysqlEnabled) {
 			DatabaseBansManager dbManager = new DatabaseBansManager(plugin);
-			line = line.replace("%bannedby%", dbManager.getBannedBy(bPlayerUUID));
-			line = line.replace("%startdate%", dbManager.getStartTime(bPlayerUUID));
-			line = line.replace("%enddate%", dbManager.getEndTime(bPlayerUUID));
-			line = line.replace("%reason%", dbManager.getReason(bPlayerUUID));
+			line = line.replace("%bannedby%", dbManager.getInfo(bPlayerUUID, "BANNEDBY"));
+			line = line.replace("%startdate%", dbManager.getInfo(bPlayerUUID, "START"));
+			line = line.replace("%enddate%", dbManager.getInfo(bPlayerUUID, "END"));
+			line = line.replace("%reason%", dbManager.getInfo(bPlayerUUID, "REASON"));
 			line = line.replace("%uuid%", bPlayerUUID);
-			if (dbManager.getEndTime(bPlayerUUID).equalsIgnoreCase("Permanent")) {
+			if (dbManager.getInfo(bPlayerUUID, "END").equalsIgnoreCase("Permanent")) {
 				line = line.replace("%timeleft%", "Permanent Ban");
 				return line;
 			}
-			endDateString = dbManager.getEndTime(bPlayerUUID);
+			endDateString = dbManager.getInfo(bPlayerUUID, "END");
 		} else {
 			ConfigBansManager confManager = new ConfigBansManager(plugin);
 
-			line = line.replace("%bannedby%", confManager.getBannedBy(bPlayerUUID));
-			line = line.replace("%startdate%", confManager.getStartTime(bPlayerUUID));
-			line = line.replace("%enddate%", confManager.getEndTime(bPlayerUUID));
-			line = line.replace("%reason%", confManager.getReason(bPlayerUUID));
+			line = line.replace("%bannedby%", confManager.getInfo(bPlayerUUID, "Banned By"));
+			line = line.replace("%startdate%", confManager.getInfo(bPlayerUUID, "Start"));
+			line = line.replace("%enddate%", confManager.getInfo(bPlayerUUID, "End"));
+			line = line.replace("%reason%", confManager.getInfo(bPlayerUUID, "Reason"));
 			line = line.replace("%uuid%", bPlayerUUID);
-			if (confManager.getEndTime(bPlayerUUID).equalsIgnoreCase("Permanent")) {
+			if (confManager.getInfo(bPlayerUUID, "End").equalsIgnoreCase("Permanent")) {
 				line = line.replace("%timeleft%", "Permanent Ban");
 				return line;
 			}
-			endDateString = confManager.getEndTime(bPlayerUUID);
+			endDateString = confManager.getInfo(bPlayerUUID, "End");
 		}
 
 		// If it isn't a perm ban. Get the difference
@@ -122,51 +129,51 @@ public class Utils {
 	private long adder;
 
 	public Date getEndDate(String arg, CommandSender sender) {
-		Date endDate = new Date();
 		arg = arg.toLowerCase();
-		// Second
-		if (arg.contains("s")) {
-			adder = 1;
-		}
-		// Minute
-		if (arg.contains("m")) {
-			adder = 60;
-		}
-		// Hours
-		if (arg.contains("h")) {
+		HashMap<String, Long> abbrevLength = new HashMap<String, Long>();
+		abbrevLength.put("s", adder = 1);
+		abbrevLength.put("m", adder = 60);
+		abbrevLength.put("h", adder = 3600);
+		abbrevLength.put("d", adder = 86400);
+		abbrevLength.put("y", adder = (86400 * 365));
 
-			adder = 3600;
+		for (String key : abbrevLength.keySet()) {
+			if (!arg.contains(key)) {
+				continue;
+			}
+			arg = arg.replace(key, "");
+			adder = abbrevLength.get(key);
+			if (getEndDateHelper(arg, sender) == null) {
+				return null;
+			}
+			adder = abbrevLength.get(key);
+			return getEndDateHelper(arg, sender);
 		}
-		// Day
-		if (arg.contains("d")) {
-			adder = 86400;
-		}
-		// Year
-		if (arg.contains("y")) {
-			adder = 86400 * 365;
-		}
-		arg = arg.replace("s", "");
-		arg = arg.replace("m", "");
-		arg = arg.replace("h", "");
-		arg = arg.replace("d", "");
-		arg = arg.replace("y", "");
-		// Seconds -> Milliseconds
+		return null;
+
+	}
+
+	public Date getEndDateHelper(String arg, CommandSender sender) {
+		Date endDate = new Date();
 		long length;
 		try {
 			length = Integer.parseInt(arg);
 		} catch (NumberFormatException exe) {
-			CommandMessages cmdMsgs = new CommandMessages(plugin);
-			sender.sendMessage(cmdMsgs.incorrectUsage("/tempban [user] [time] [reason]"));
-			sender.sendMessage(Utils.chat("&6Seconds&7=&6s"));
-			sender.sendMessage(Utils.chat("&6Minutes&7=&6m"));
-			sender.sendMessage(Utils.chat("&6Hours&7=&6h"));
-			sender.sendMessage(Utils.chat("&6Days&7=&6d"));
-			sender.sendMessage(Utils.chat("&6Years&7=&6y"));
 			return null;
 		}
 		adder = adder * 1000 * length;
+		System.out.println(Utils.chat(String.valueOf(adder + " * 1000 * " + length)));
 		endDate.setTime(System.currentTimeMillis() + adder);
 		return endDate;
 	}
 
+	public void sendAbbrevMessages(CommandSender sender) {
+		CommandMessages cmdMsgs = new CommandMessages(plugin);
+		sender.sendMessage(cmdMsgs.incorrectUsage("/tempban [user] [time] [reason]"));
+		sender.sendMessage(Utils.chat("&6Seconds&7=&6s"));
+		sender.sendMessage(Utils.chat("&6Minutes&7=&6m"));
+		sender.sendMessage(Utils.chat("&6Hours&7=&6h"));
+		sender.sendMessage(Utils.chat("&6Days&7=&6d"));
+		sender.sendMessage(Utils.chat("&6Years&7=&6y"));
+	}
 }

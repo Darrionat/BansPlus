@@ -1,6 +1,8 @@
 package me.Darrionat.BansPlus.Handlers;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.ConfigurationSection;
@@ -16,7 +18,8 @@ public class ConfigBansManager {
 		this.plugin = plugin;
 	}
 
-	public void useConfig(OfflinePlayer bPlayer, Date startDate, Date endDate, String reason, String bannedBy) {
+	public void useConfig(OfflinePlayer bPlayer, Date startDate, Date endDate, String reason, String username,
+			String bannedBy) {
 		FileManager fileManager = new FileManager(plugin);
 		FileConfiguration bPlayersConfig = fileManager.getDataConfig("bannedplayers");
 		String bPlayerUUID = bPlayer.getUniqueId().toString();
@@ -31,6 +34,7 @@ public class ConfigBansManager {
 		}
 
 		bPlayerSection.set("Reason", reason.toString());
+		bPlayerSection.set("Username", username);
 		bPlayerSection.set("Banned By", bannedBy);
 
 		fileManager.saveConfigFile("bannedplayers", bPlayersConfig);
@@ -52,32 +56,23 @@ public class ConfigBansManager {
 		return;
 	}
 
-	public String getBannedBy(String uuid) {
+	public String getInfo(String uuid, String key) {
 		FileManager fileManager = new FileManager(plugin);
 		FileConfiguration bPlayersConfig = fileManager.getDataConfig("bannedplayers");
-		String bannedBy = bPlayersConfig.getString(uuid + ".Banned By");
-		return bannedBy;
-	}
-
-	public String getStartTime(String uuid) {
-		FileManager fileManager = new FileManager(plugin);
-		FileConfiguration bPlayersConfig = fileManager.getDataConfig("bannedplayers");
-		String start = bPlayersConfig.getString(uuid + ".Start");
-		return start;
-	}
-
-	public String getEndTime(String uuid) {
-		FileManager fileManager = new FileManager(plugin);
-		FileConfiguration bPlayersConfig = fileManager.getDataConfig("bannedplayers");
-		String end = bPlayersConfig.getString(uuid + ".End");
-		return end;
-	}
-
-	public String getReason(String uuid) {
-		FileManager fileManager = new FileManager(plugin);
-		FileConfiguration bPlayersConfig = fileManager.getDataConfig("bannedplayers");
-		String reason = bPlayersConfig.getString(uuid + ".Reason");
+		// Banned By, Start, End, Reason
+		String reason = bPlayersConfig.getString(uuid + "." + key);
 		return reason;
+	}
+
+	public List<String> getList() {
+		FileManager fileManager = new FileManager(plugin);
+		FileConfiguration bPlayersConfig = fileManager.getDataConfig("bannedplayers");
+		List<String> list = new ArrayList<String>();
+		for (String key : bPlayersConfig.getKeys(false)) {
+			String name = getInfo(key, "Username");
+			list.add(name);
+		}
+		return list;
 	}
 
 }

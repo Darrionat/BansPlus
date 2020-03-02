@@ -3,7 +3,9 @@ package me.Darrionat.BansPlus.Handlers;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import me.Darrionat.BansPlus.Main;
 
@@ -84,7 +86,7 @@ public class DatabaseIPBansManager {
 		}
 	}
 
-	public String getStartTime(String ip) {
+	public String getInfo(String ip, String column) {
 		try {
 			PreparedStatement statement = plugin.getConnection()
 					.prepareStatement("SELECT * FROM " + plugin.ipBansTable + " WHERE IP=?");
@@ -92,7 +94,8 @@ public class DatabaseIPBansManager {
 			statement.setString(1, ip);
 			ResultSet results = statement.executeQuery();
 			results.next();
-			return results.getString("START");
+			// START, REASON, BANNEDBY
+			return results.getString(column);
 
 		} catch (SQLException exe) {
 			exe.printStackTrace();
@@ -101,38 +104,23 @@ public class DatabaseIPBansManager {
 		return null;
 	}
 
-	public String getReason(String ip) {
+	public List<String> getList() {
+		List<String> list = new ArrayList<String>();
 		try {
 			PreparedStatement statement = plugin.getConnection()
-					.prepareStatement("SELECT * FROM " + plugin.ipBansTable + " WHERE IP=?");
+					.prepareStatement("SELECT * FROM " + plugin.ipBansTable);
 
-			statement.setString(1, ip);
 			ResultSet results = statement.executeQuery();
-			results.next();
-			return results.getString("REASON");
+
+			while (results.next()) {
+				list.add(results.getString("IP"));
+			}
+			return list;
 
 		} catch (SQLException exe) {
 			exe.printStackTrace();
 
 		}
-		return null;
+		return list;
 	}
-
-	public String getBannedBy(String ip) {
-		try {
-			PreparedStatement statement = plugin.getConnection()
-					.prepareStatement("SELECT * FROM " + plugin.ipBansTable + " WHERE IP=?");
-
-			statement.setString(1, ip);
-			ResultSet results = statement.executeQuery();
-			results.next();
-			return results.getString("BANNEDBY");
-
-		} catch (SQLException exe) {
-			exe.printStackTrace();
-
-		}
-		return null;
-	}
-
 }

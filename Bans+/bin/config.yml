@@ -31,6 +31,8 @@ Messages:
     Player Is Op: "&cThat player is opped and cannot be banned!"
     Unban DNE: "&cThat player or IP is not banned!"
     Unban Successful: "&a%player% has been unbanned successfully."
+    No Bans: "&cThere are no banned players"
+    BanListPrefix: "&4Ban List:&c"
 
 #Optional: MySQL Connection (Recommended)
 #Tables will automatically be created

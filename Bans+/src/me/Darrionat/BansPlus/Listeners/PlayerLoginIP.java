@@ -13,6 +13,7 @@ import org.bukkit.event.player.PlayerLoginEvent.Result;
 import me.Darrionat.BansPlus.Main;
 import me.Darrionat.BansPlus.Files.FileManager;
 import me.Darrionat.BansPlus.Handlers.DatabaseIPBansManager;
+import me.Darrionat.BansPlus.Utils.Utils;
 
 public class PlayerLoginIP implements Listener {
 
@@ -27,6 +28,7 @@ public class PlayerLoginIP implements Listener {
 	public void onPlayerLogin(PlayerLoginEvent e) {
 		InetAddress ip = e.getAddress();
 		String ipstr = ip.toString().replace("/", "");
+
 		if (plugin.mysqlEnabled) {
 			DatabaseIPBansManager dbIPManager = new DatabaseIPBansManager(plugin);
 			if (!dbIPManager.ipExists(ipstr)) {
@@ -42,7 +44,7 @@ public class PlayerLoginIP implements Listener {
 
 		}
 
-		// e.setKickMessage(Utils.chat(Utils.banMessage(plugin, uuidString))); //
+		e.setKickMessage(Utils.chat(Utils.IPbanMessage(plugin, ipstr)));
 		// Messages change with ban amount.
 		e.setResult(Result.KICK_BANNED);
 

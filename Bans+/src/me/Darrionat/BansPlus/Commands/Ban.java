@@ -30,8 +30,17 @@ public class Ban implements CommandExecutor {
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		FileConfiguration config = plugin.getConfig();
+		if (sender instanceof Player) {
+			Player p = (Player) sender;
+			String perm = "bansplus.ban";
+			if (!p.hasPermission(perm)) {
+				p.sendMessage(Utils.chat(config.getString("Messages.NoPermission").replace("%perm%", perm)));
+				return true;
+			}
+		}
+		CommandMessages cmdMsgs = new CommandMessages(plugin);
 		if (args.length == 0) {
-			// Send messages about plugin
+			sender.sendMessage(cmdMsgs.incorrectUsage("/ban [player] [reason]"));
 			return true;
 		}
 		if (Bukkit.getOfflinePlayer(args[0]) == null) {
@@ -41,7 +50,6 @@ public class Ban implements CommandExecutor {
 		// ban user = GUI
 		if (args.length == 1) {
 			if (!(sender instanceof Player)) {
-				CommandMessages cmdMsgs = new CommandMessages(plugin);
 				sender.sendMessage(cmdMsgs.incorrectUsage("/ban [player] [reason]"));
 				return true;
 			}
@@ -55,6 +63,11 @@ public class Ban implements CommandExecutor {
 		OfflinePlayer bPlayer = Bukkit.getOfflinePlayer(args[0]);
 		if (bPlayer.isOp() && config.getBoolean("Ban Opped Players") == false) {
 			sender.sendMessage(Utils.chat(config.getString("Messages.Player Is Op")));
+			return true;
+		}
+		OfflinePlayer player = Bukkit.getOfflinePlayer(args[0]);
+		if (player.getName() == null) {
+			sender.sendMessage(Utils.chat(config.getString("Messages.Invalid Player").replace("%name%", args[0])));
 			return true;
 		}
 
@@ -96,9 +109,9 @@ public class Ban implements CommandExecutor {
 		ConfigBansManager configManager = new ConfigBansManager(plugin);
 		DatabaseBansManager dbManager = new DatabaseBansManager(plugin);
 		if (plugin.mysqlEnabled) {
-			dbManager.createPlayer(bPlayer, startDate, endDate, reason, bannedBy);
+			dbManager.createPlayer(bPlayer, startDate, endDate, reason, args[0], bannedBy);
 		} else {
-			configManager.useConfig(bPlayer, startDate, endDate, reason, bannedBy);
+			configManager.useConfig(bPlayer, startDate, endDate, reason, args[0], bannedBy);
 		}
 		if (bPlayer.isOnline()) {
 			Player bPlayerOnline = (Player) bPlayer;

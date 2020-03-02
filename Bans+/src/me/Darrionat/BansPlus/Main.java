@@ -8,7 +8,9 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import me.Darrionat.BansPlus.Commands.Ban;
+import me.Darrionat.BansPlus.Commands.BanList;
 import me.Darrionat.BansPlus.Commands.IPBan;
+import me.Darrionat.BansPlus.Commands.BansPlus;
 import me.Darrionat.BansPlus.Commands.TempBan;
 import me.Darrionat.BansPlus.Commands.Unban;
 import me.Darrionat.BansPlus.Files.FileManager;
@@ -34,7 +36,9 @@ public class Main extends JavaPlugin {
 		new TempBan(this);
 		new IPBan(this);
 		new Unban(this);
-		
+		new BanList(this);
+		new BansPlus(this);
+
 		new PlayerLogin(this);
 		new PlayerLoginIP(this);
 

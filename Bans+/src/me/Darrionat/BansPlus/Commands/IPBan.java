@@ -26,12 +26,16 @@ public class IPBan implements CommandExecutor {
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		FileConfiguration config = plugin.getConfig();
-		if (args.length == 0) {
-			// Send messages about plugin
-			return true;
+		if (sender instanceof Player) {
+			Player p = (Player) sender;
+			String perm = "bansplus.ipban";
+			if (!p.hasPermission(perm)) {
+				p.sendMessage(Utils.chat(config.getString("Messages.NoPermission").replace("%perm%", perm)));
+				return true;
+			}
 		}
-		if (args.length == 1) {
-			CommandMessages cmdMsgs = new CommandMessages(plugin);
+		CommandMessages cmdMsgs = new CommandMessages(plugin);
+		if (args.length == 0 || args.length == 1) {
 			sender.sendMessage(cmdMsgs.incorrectUsage("/ipban [ip] [reason]"));
 			return true;
 		}

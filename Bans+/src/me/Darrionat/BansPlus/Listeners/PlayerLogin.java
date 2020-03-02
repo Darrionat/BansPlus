@@ -40,7 +40,7 @@ public class PlayerLogin implements Listener {
 			if (!dbManager.playerExists(uuid.toString())) {
 				return;
 			}
-			if (dbManager.getEndTime(uuidString).equalsIgnoreCase("Permanent")) {
+			if (dbManager.getInfo(uuidString, "END").equalsIgnoreCase("Permanent")) {
 				e.setKickMessage(Utils.chat(Utils.banMessage(plugin, uuidString))); // Messages change with ban amount.
 				e.setResult(Result.KICK_BANNED);
 				return;

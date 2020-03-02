@@ -29,8 +29,17 @@ public class TempBan implements CommandExecutor {
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		FileConfiguration config = plugin.getConfig();
+		if (sender instanceof Player) {
+			Player p = (Player) sender;
+			String perm = "bansplus.tempban";
+			if (!p.hasPermission(perm)) {
+				p.sendMessage(Utils.chat(config.getString("Messages.NoPermission").replace("%perm%", perm)));
+				return true;
+			}
+		}
+		CommandMessages cmdMsgs = new CommandMessages(plugin);
 		if (args.length == 0) {
-			// Send messages about plugin
+			sender.sendMessage(cmdMsgs.incorrectUsage("/tempban [player] [length] [reason]"));
 			return true;
 		}
 		if (Bukkit.getOfflinePlayer(args[0]) == null) {
@@ -39,7 +48,6 @@ public class TempBan implements CommandExecutor {
 		}
 		// ban user = GUI
 		if (args.length == 1) {
-			CommandMessages cmdMsgs = new CommandMessages(plugin);
 			sender.sendMessage(cmdMsgs.incorrectUsage("/tempban [player] [length] [reason]"));
 			return true;
 		}
@@ -75,6 +83,7 @@ public class TempBan implements CommandExecutor {
 		Utils utils = new Utils(plugin);
 		Date endDate = utils.getEndDate(args[1], sender);
 		if (endDate == null) {
+			utils.sendAbbrevMessages(sender);
 			return true;
 		}
 
@@ -93,9 +102,9 @@ public class TempBan implements CommandExecutor {
 		ConfigBansManager configManager = new ConfigBansManager(plugin);
 		DatabaseBansManager dbManager = new DatabaseBansManager(plugin);
 		if (plugin.mysqlEnabled) {
-			dbManager.createPlayer(bPlayer, startDate, endDate, reason, bannedBy);
+			dbManager.createPlayer(bPlayer, startDate, endDate, reason, args[0], bannedBy);
 		} else {
-			configManager.useConfig(bPlayer, startDate, endDate, reason, bannedBy);
+			configManager.useConfig(bPlayer, startDate, endDate, reason, args[0], bannedBy);
 		}
 		if (bPlayer.isOnline()) {
 			Player bPlayerOnline = (Player) bPlayer;

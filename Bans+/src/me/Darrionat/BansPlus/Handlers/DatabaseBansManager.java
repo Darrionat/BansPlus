@@ -3,7 +3,9 @@ package me.Darrionat.BansPlus.Handlers;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 import org.bukkit.OfflinePlayer;
@@ -22,7 +24,7 @@ public class DatabaseBansManager {
 		try {
 			PreparedStatement statement = plugin.getConnection().prepareStatement("CREATE TABLE IF NOT EXISTS "
 					+ plugin.bansTable
-					+ " (UUID char(36), Start varchar(40), End varchar(40), Reason varchar(500),BannedBy varchar(16))");
+					+ " (UUID char(36), Start varchar(40), End varchar(40), Reason varchar(500),Username varchar(16),BannedBy varchar(16))");
 			statement.execute();
 
 		} catch (SQLException exe) {
@@ -30,7 +32,8 @@ public class DatabaseBansManager {
 		}
 	}
 
-	public void createPlayer(OfflinePlayer bPlayer, Date startDate, Date endDate, String reason, String bannedBy) {
+	public void createPlayer(OfflinePlayer bPlayer, Date startDate, Date endDate, String reason, String username,
+			String bannedBy) {
 		UUID uuid = bPlayer.getUniqueId();
 		try {
 			// Replaces the person
@@ -39,8 +42,8 @@ public class DatabaseBansManager {
 						.prepareStatement("DELETE FROM " + plugin.bansTable + " WHERE UUID='" + uuid.toString() + "'");
 				statement.execute();
 			}
-			PreparedStatement insert = plugin.getConnection().prepareStatement(
-					"INSERT INTO " + plugin.bansTable + "(UUID, START, END, REASON, BANNEDBY) VALUE (?,?,?,?,?)");
+			PreparedStatement insert = plugin.getConnection().prepareStatement("INSERT INTO " + plugin.bansTable
+					+ "(UUID, START, END, REASON,USERNAME, BANNEDBY) VALUE (?,?,?,?,?,?)");
 			insert.setString(1, uuid.toString());
 			insert.setString(2, startDate.toString());
 			if (endDate == null) {
@@ -49,7 +52,8 @@ public class DatabaseBansManager {
 				insert.setString(3, endDate.toString());
 			}
 			insert.setString(4, reason);
-			insert.setString(5, bannedBy);
+			insert.setString(5, username);
+			insert.setString(6, bannedBy);
 			insert.executeUpdate();
 
 			// Player inserted now
@@ -89,7 +93,7 @@ public class DatabaseBansManager {
 		}
 	}
 
-	public String getStartTime(String uuid) {
+	public String getInfo(String uuid, String column) {
 		try {
 			PreparedStatement statement = plugin.getConnection()
 					.prepareStatement("SELECT * FROM " + plugin.bansTable + " WHERE UUID=?");
@@ -97,7 +101,8 @@ public class DatabaseBansManager {
 			statement.setString(1, uuid);
 			ResultSet results = statement.executeQuery();
 			results.next();
-			return results.getString("START");
+			// START, END, REASON, NAME, USERNAME,BANNEDBY
+			return results.getString(column);
 
 		} catch (SQLException exe) {
 			exe.printStackTrace();
@@ -106,55 +111,26 @@ public class DatabaseBansManager {
 		return null;
 	}
 
-	public String getEndTime(String uuid) {
+	public List<String> getList() {
+		List<String> list = new ArrayList<String>();
 		try {
-			PreparedStatement statement = plugin.getConnection()
-					.prepareStatement("SELECT * FROM " + plugin.bansTable + " WHERE UUID=?");
+			PreparedStatement statement = plugin.getConnection().prepareStatement("SELECT * FROM " + plugin.bansTable);
 
-			statement.setString(1, uuid);
 			ResultSet results = statement.executeQuery();
-			results.next();
-			return results.getString("END");
+
+			while (results.next()) {
+				String uuidStr = results.getString("UUID");
+				String name = getInfo(uuidStr, "USERNAME");
+
+				list.add(name);
+			}
+			return list;
 
 		} catch (SQLException exe) {
 			exe.printStackTrace();
 
 		}
-		return null;
-	}
-
-	public String getReason(String uuid) {
-		try {
-			PreparedStatement statement = plugin.getConnection()
-					.prepareStatement("SELECT * FROM " + plugin.bansTable + " WHERE UUID=?");
-
-			statement.setString(1, uuid);
-			ResultSet results = statement.executeQuery();
-			results.next();
-			return results.getString("REASON");
-
-		} catch (SQLException exe) {
-			exe.printStackTrace();
-
-		}
-		return null;
-	}
-
-	public String getBannedBy(String uuid) {
-		try {
-			PreparedStatement statement = plugin.getConnection()
-					.prepareStatement("SELECT * FROM " + plugin.bansTable + " WHERE UUID=?");
-
-			statement.setString(1, uuid);
-			ResultSet results = statement.executeQuery();
-			results.next();
-			return results.getString("BANNEDBY");
-
-		} catch (SQLException exe) {
-			exe.printStackTrace();
-
-		}
-		return null;
+		return list;
 	}
 
 }

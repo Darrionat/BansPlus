@@ -7,27 +7,50 @@ author: Darrionat
 
 commands:
   ban:
-    aliases: [pban]
+    aliases: [banp]
     usage: </command> user reason
-  tempban:
-    aliases: [ptempban]
-    usage: </command> user time reason
-  ipban:
-    aliases: [pipban]
-    usage: </command> ip reason
-  unban:
-    aliases: [punban]
+  banlist:
+    aliases: [banlistp]
     usage: </command> player/ip
+  bansplus:
+    aliases: [banplus, bansp]
+    usage: </command>
+  ipban:
+    aliases: [ipbanp]
+    usage: </command> ip reason
+  tempban:
+    aliases: [tempbanp]
+    usage: </command> user time reason
+  unban:
+    aliases: [unbanp]
+    usage: </command> player/ip
+  
     
 permissions:
   bansplus.*:
-    description: Gives access to all Punishments commands
+    description: Gives access to all BansPlus commands
     children:
       bansplus.ban: true
+      banplus.banlist: true
+      bansplus.bansplus: true
       bansplus.ipban: true
+      banplus.tempban: true
+      bansplus.unban: true
   bansplus.ban:
-    description: Allows a player to ban other players
+    description: Allows a player to ban players
     default: op
-  bansplus.ban:
-    description: Allows a player to ban an ip
+  bansplus.banlist:
+    description: Allows a player to read the ban list
+    default: op
+  bansplus.bansplus:
+    description: Allows a player to read the help section
+    default: op
+  bansplus.ipban:
+    description: Allows a player to ban an IP
+    default: op
+  bansplus.tempban:
+    description: Allows a player to temporarily ban a player
+    default: op
+  bansplus.unban:
+    description: Allows a player to unban a player
     default: op

@@ -6,6 +6,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Player;
 
 import me.Darrionat.BansPlus.Main;
 import me.Darrionat.BansPlus.Handlers.ConfigBansManager;
@@ -25,37 +26,65 @@ public class Unban implements CommandExecutor {
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		FileConfiguration config = plugin.getConfig();
+		if (sender instanceof Player) {
+			Player p = (Player) sender;
+			String perm = "bansplus.unban";
+			if (!p.hasPermission(perm)) {
+				p.sendMessage(Utils.chat(config.getString("Messages.NoPermission").replace("%perm%", perm)));
+				return true;
+			}
+		}
 		ConfigBansManager confManager = new ConfigBansManager(plugin);
 		DatabaseBansManager dbManager = new DatabaseBansManager(plugin);
 		ConfigIPBansManager confIPManager = new ConfigIPBansManager(plugin);
 		DatabaseIPBansManager dbIPManager = new DatabaseIPBansManager(plugin);
+		CommandMessages cmdMsgs = new CommandMessages(plugin);
+		if (args.length == 0) {
+			sender.sendMessage(cmdMsgs.incorrectUsage("/unban [UUID/Player/IP]"));
+			return true;
+		}
 		String unbanMsg = Utils.chat(config.getString("Messages.Unban Successful").replace("%player%", args[0]));
-
 		String ip = args[0];
-		if (confIPManager.ipExists(ip)) {
-			confIPManager.removeIP(ip);
-			sender.sendMessage(unbanMsg);
-			return true;
-		}
-		if (dbIPManager.ipExists(ip)) {
-			dbIPManager.removeIP(ip);
-			sender.sendMessage(unbanMsg);
-			return true;
-		}
-
 		@SuppressWarnings("deprecation")
 		OfflinePlayer bPlayer = Bukkit.getOfflinePlayer(args[0]);
-		String uuid = bPlayer.getUniqueId().toString();
-		if (confManager.playerExists(uuid)) {
-			confManager.removePlayer(uuid);
-			sender.sendMessage(unbanMsg);
-			return true;
+		String buuid = bPlayer.getUniqueId().toString();
+
+		// Player UUID
+		String uuid = args[0];
+		if (plugin.mysqlEnabled) {
+			if (dbIPManager.ipExists(ip)) {
+				dbIPManager.removeIP(ip);
+				sender.sendMessage(unbanMsg);
+				return true;
+			}
+			if (dbManager.playerExists(buuid)) {
+				dbManager.removePlayer(buuid);
+				sender.sendMessage(unbanMsg);
+				return true;
+			}
+			if (dbManager.playerExists(uuid)) {
+				dbManager.removePlayer(uuid);
+				sender.sendMessage(unbanMsg);
+				return true;
+			}
+		} else {
+			if (confManager.playerExists(buuid)) {
+				confManager.removePlayer(buuid);
+				sender.sendMessage(unbanMsg);
+				return true;
+			}
+			if (confIPManager.ipExists(ip)) {
+				confIPManager.removeIP(ip);
+				sender.sendMessage(unbanMsg);
+				return true;
+			}
+			if (confManager.playerExists(uuid)) {
+				confManager.removePlayer(uuid);
+				sender.sendMessage(unbanMsg);
+				return true;
+			}
 		}
-		if (dbManager.playerExists(uuid)) {
-			dbManager.removePlayer(uuid);
-			sender.sendMessage(unbanMsg);
-			return true;
-		}
+
 		// Not an IP or player that's banned
 		sender.sendMessage(Utils.chat(config.getString("Messages.Unban DNE")));
 		return true;

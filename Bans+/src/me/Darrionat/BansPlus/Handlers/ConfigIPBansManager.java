@@ -1,6 +1,8 @@
 package me.Darrionat.BansPlus.Handlers;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -44,25 +46,23 @@ public class ConfigIPBansManager {
 		return;
 	}
 
-	public String getBannedBy(String ip) {
+	public String getInfo(String ip, String key) {
 		FileManager fileManager = new FileManager(plugin);
 		FileConfiguration bIPsConfig = fileManager.getDataConfig("bannedips");
-		String bannedBy = bIPsConfig.getString(ip + ".Banned By");
-		return bannedBy;
+		// Banned By, Start, Reason
+		String info = bIPsConfig.getString(ip + "." + key);
+		return info;
 	}
 
-	public String getStartTime(String ip) {
+	public List<String> getList() {
 		FileManager fileManager = new FileManager(plugin);
 		FileConfiguration bIPsConfig = fileManager.getDataConfig("bannedips");
-		String start = bIPsConfig.getString(ip + ".Start");
-		return start;
-	}
-
-	public String getReason(String ip) {
-		FileManager fileManager = new FileManager(plugin);
-		FileConfiguration bIPsConfig = fileManager.getDataConfig("bannedips");
-		String reason = bIPsConfig.getString(ip + ".Reason");
-		return reason;
+		List<String> list = new ArrayList<String>();
+		for (String key : bIPsConfig.getKeys(false)) {
+			key = key.replace("-", ".");
+			list.add(key);
+		}
+		return list;
 	}
 
 }
