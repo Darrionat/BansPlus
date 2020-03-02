@@ -7,25 +7,29 @@ author: Darrionat
 
 commands:
   ban:
-    aliases: [banp]
+    aliases: [banplus]
     usage: </command> user reason
   banlist:
-    aliases: [banlistp]
+    aliases: [banlistplus]
     usage: </command> player/ip
   bansplus:
-    aliases: [banplus, bansp]
+    aliases: [banplus]
     usage: </command>
   ipban:
-    aliases: [ipbanp]
+    aliases: [ipbanplus]
     usage: </command> ip reason
+  mute:
+    aliases: [muteplus]
+    usage: </command> user time reason
   tempban:
-    aliases: [tempbanp]
+    aliases: [tempbanplus]
     usage: </command> user time reason
   unban:
-    aliases: [unbanp]
+    aliases: [unbanplus]
     usage: </command> player/ip
-  
-    
+  unmute:
+    aliases: [unmuteplus]
+    usage: </command> player
 permissions:
   bansplus.*:
     description: Gives access to all BansPlus commands
@@ -34,8 +38,10 @@ permissions:
       banplus.banlist: true
       bansplus.bansplus: true
       bansplus.ipban: true
+      banplus.mute: true
       banplus.tempban: true
       bansplus.unban: true
+      bansplus.unmute: true
   bansplus.ban:
     description: Allows a player to ban players
     default: op
@@ -48,9 +54,15 @@ permissions:
   bansplus.ipban:
     description: Allows a player to ban an IP
     default: op
+  bansplus.mute:
+    description: Allows a player to mute players
+    default: op
   bansplus.tempban:
     description: Allows a player to temporarily ban a player
     default: op
   bansplus.unban:
     description: Allows a player to unban a player
+    default: op
+  bansplus.unmute:
+    description: Allows a player to unmute a player
     default: op

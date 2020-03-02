@@ -13,8 +13,8 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 import me.Darrionat.BansPlus.Main;
-import me.Darrionat.BansPlus.Handlers.ConfigBansManager;
-import me.Darrionat.BansPlus.Handlers.DatabaseBansManager;
+import me.Darrionat.BansPlus.Handlers.Bans.ConfigBansManager;
+import me.Darrionat.BansPlus.Handlers.Bans.DatabaseBansManager;
 import me.Darrionat.BansPlus.UI.BanUI;
 import me.Darrionat.BansPlus.Utils.Utils;
 

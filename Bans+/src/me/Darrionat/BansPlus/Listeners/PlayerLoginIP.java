@@ -12,7 +12,7 @@ import org.bukkit.event.player.PlayerLoginEvent.Result;
 
 import me.Darrionat.BansPlus.Main;
 import me.Darrionat.BansPlus.Files.FileManager;
-import me.Darrionat.BansPlus.Handlers.DatabaseIPBansManager;
+import me.Darrionat.BansPlus.Handlers.IPBans.DatabaseIPBansManager;
 import me.Darrionat.BansPlus.Utils.Utils;
 
 public class PlayerLoginIP implements Listener {

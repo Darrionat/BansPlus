@@ -9,10 +9,10 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 import me.Darrionat.BansPlus.Main;
-import me.Darrionat.BansPlus.Handlers.ConfigBansManager;
-import me.Darrionat.BansPlus.Handlers.ConfigIPBansManager;
-import me.Darrionat.BansPlus.Handlers.DatabaseBansManager;
-import me.Darrionat.BansPlus.Handlers.DatabaseIPBansManager;
+import me.Darrionat.BansPlus.Handlers.Bans.ConfigBansManager;
+import me.Darrionat.BansPlus.Handlers.Bans.DatabaseBansManager;
+import me.Darrionat.BansPlus.Handlers.IPBans.ConfigIPBansManager;
+import me.Darrionat.BansPlus.Handlers.IPBans.DatabaseIPBansManager;
 import me.Darrionat.BansPlus.Utils.Utils;
 
 public class BanList implements CommandExecutor {

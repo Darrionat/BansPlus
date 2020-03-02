@@ -17,9 +17,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import me.Darrionat.BansPlus.Main;
-import me.Darrionat.BansPlus.Commands.CommandMessages;
-import me.Darrionat.BansPlus.Handlers.ConfigBansManager;
-import me.Darrionat.BansPlus.Handlers.DatabaseBansManager;
+import me.Darrionat.BansPlus.Handlers.Bans.ConfigBansManager;
+import me.Darrionat.BansPlus.Handlers.Bans.DatabaseBansManager;
 
 public class Utils {
 	private Main plugin;
@@ -162,14 +161,11 @@ public class Utils {
 			return null;
 		}
 		adder = adder * 1000 * length;
-		System.out.println(Utils.chat(String.valueOf(adder + " * 1000 * " + length)));
 		endDate.setTime(System.currentTimeMillis() + adder);
 		return endDate;
 	}
 
 	public void sendAbbrevMessages(CommandSender sender) {
-		CommandMessages cmdMsgs = new CommandMessages(plugin);
-		sender.sendMessage(cmdMsgs.incorrectUsage("/tempban [user] [time] [reason]"));
 		sender.sendMessage(Utils.chat("&6Seconds&7=&6s"));
 		sender.sendMessage(Utils.chat("&6Minutes&7=&6m"));
 		sender.sendMessage(Utils.chat("&6Hours&7=&6h"));

@@ -9,15 +9,19 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import me.Darrionat.BansPlus.Commands.Ban;
 import me.Darrionat.BansPlus.Commands.BanList;
-import me.Darrionat.BansPlus.Commands.IPBan;
 import me.Darrionat.BansPlus.Commands.BansPlus;
+import me.Darrionat.BansPlus.Commands.IPBan;
+import me.Darrionat.BansPlus.Commands.Mute;
 import me.Darrionat.BansPlus.Commands.TempBan;
 import me.Darrionat.BansPlus.Commands.Unban;
+import me.Darrionat.BansPlus.Commands.Unmute;
 import me.Darrionat.BansPlus.Files.FileManager;
-import me.Darrionat.BansPlus.Handlers.ConfigBansManager;
-import me.Darrionat.BansPlus.Handlers.ConfigIPBansManager;
-import me.Darrionat.BansPlus.Handlers.DatabaseBansManager;
-import me.Darrionat.BansPlus.Handlers.DatabaseIPBansManager;
+import me.Darrionat.BansPlus.Handlers.Bans.ConfigBansManager;
+import me.Darrionat.BansPlus.Handlers.Bans.DatabaseBansManager;
+import me.Darrionat.BansPlus.Handlers.IPBans.ConfigIPBansManager;
+import me.Darrionat.BansPlus.Handlers.IPBans.DatabaseIPBansManager;
+import me.Darrionat.BansPlus.Handlers.Mutes.ConfigMutesManager;
+import me.Darrionat.BansPlus.Handlers.Mutes.DatabaseMutesManager;
 import me.Darrionat.BansPlus.Listeners.PlayerLogin;
 import me.Darrionat.BansPlus.Listeners.PlayerLoginIP;
 import me.Darrionat.BansPlus.UI.BanUI;
@@ -38,20 +42,25 @@ public class Main extends JavaPlugin {
 		new Unban(this);
 		new BanList(this);
 		new BansPlus(this);
+		new Mute(this);
+		new Unmute(this);
 
 		new PlayerLogin(this);
 		new PlayerLoginIP(this);
 
 		new ConfigBansManager(this);
 		new ConfigIPBansManager(this);
+		new ConfigMutesManager(this);
 		DatabaseBansManager dbManager = new DatabaseBansManager(this);
 		DatabaseIPBansManager dbIPManager = new DatabaseIPBansManager(this);
+		DatabaseMutesManager dbMutesManager = new DatabaseMutesManager(this);
 
 		saveConfigs();
 		if (config.getBoolean("MySQL.Enabled")) {
 			mysqlSetup();
 			dbManager.createBansTable();
 			dbIPManager.createIPBansTable();
+			dbMutesManager.createMutesTable();
 			mysqlEnabled = true;
 		} else {
 			mysqlEnabled = false;
@@ -64,7 +73,6 @@ public class Main extends JavaPlugin {
 	}
 
 	public void saveConfigs() {
-		// Save Files
 		FileManager fileManager = new FileManager(this);
 		if (fileManager.fileExists("bannedplayers") == false) {
 			fileManager.setup("bannedplayers");
@@ -72,11 +80,14 @@ public class Main extends JavaPlugin {
 		if (fileManager.fileExists("bannedips") == false) {
 			fileManager.setup("bannedips");
 		}
+		if (fileManager.fileExists("mutedplayers") == false) {
+			fileManager.setup("mutedplayers");
+		}
 		saveDefaultConfig();
 	}
 
 	private Connection connection;
-	public String host, database, username, password, bansTable, ipBansTable;
+	public String host, database, username, password, bansTable, ipBansTable, mutesTable;
 	public int port;
 
 	public void mysqlSetup() {
@@ -85,8 +96,9 @@ public class Main extends JavaPlugin {
 		database = config.getString("MySQL.database");
 		username = config.getString("MySQL.username");
 		password = config.getString("MySQL.password");
-		bansTable = "punishments_bans";
-		ipBansTable = "punishments_ip_bans";
+		bansTable = "bansplus_bans";
+		ipBansTable = "bansplus_ipbans";
+		mutesTable = "bansplus_mutes";
 		try {
 			synchronized (this) {
 				if (getConnection() != null && !getConnection().isClosed()) {

@@ -28,12 +28,16 @@ Messages:
     IP Ban: "&cThe IP: %ip% &awas permanently banned for &c%reason%"
     Incorrect Usage Prefix: "&6Correct Usage&7"
     Invalid Player: "&c%name% is not a valid player"
-    Player Is Op: "&cThat player is opped and cannot be banned!"
+    Player Is Op: "&cYou can not do that to that player!"
     Unban DNE: "&cThat player or IP is not banned!"
+    Unmute DNE: "&cThat player is not muted!"
     Unban Successful: "&a%player% has been unbanned successfully."
+    Unmute Successful: "&a%player% has been unmuted successfully."
     No Bans: "&cThere are no banned players"
     BanListPrefix: "&4Ban List:&c"
     NoPermission: "&cYou do not have the permission '%perm%'"
+    Muted Successfully: "&cYou muted %name% for %reason% for %time%"
+    To Muted Player: "&cYou were muted for %reason% for %time%"
 
 #Optional: MySQL Connection (Recommended)
 #Tables will automatically be created

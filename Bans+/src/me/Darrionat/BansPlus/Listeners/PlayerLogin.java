@@ -16,7 +16,7 @@ import org.bukkit.event.player.PlayerLoginEvent.Result;
 
 import me.Darrionat.BansPlus.Main;
 import me.Darrionat.BansPlus.Files.FileManager;
-import me.Darrionat.BansPlus.Handlers.DatabaseBansManager;
+import me.Darrionat.BansPlus.Handlers.Bans.DatabaseBansManager;
 import me.Darrionat.BansPlus.Utils.Utils;
 
 public class PlayerLogin implements Listener {
@@ -45,6 +45,7 @@ public class PlayerLogin implements Listener {
 				e.setResult(Result.KICK_BANNED);
 				return;
 			}
+			endDateString = dbManager.getInfo(uuidString, "END");
 
 		} else {
 			FileManager fileManager = new FileManager(plugin);

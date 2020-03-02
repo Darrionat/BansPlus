@@ -13,16 +13,16 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 import me.Darrionat.BansPlus.Main;
-import me.Darrionat.BansPlus.Handlers.Bans.ConfigBansManager;
-import me.Darrionat.BansPlus.Handlers.Bans.DatabaseBansManager;
+import me.Darrionat.BansPlus.Handlers.Mutes.ConfigMutesManager;
+import me.Darrionat.BansPlus.Handlers.Mutes.DatabaseMutesManager;
 import me.Darrionat.BansPlus.Utils.Utils;
 
-public class TempBan implements CommandExecutor {
+public class Mute implements CommandExecutor {
 	private Main plugin;
 
-	public TempBan(Main plugin) {
+	public Mute(Main plugin) {
 		this.plugin = plugin;
-		plugin.getCommand("tempban").setExecutor(this);
+		plugin.getCommand("mute").setExecutor(this);
 	}
 
 	@SuppressWarnings("deprecation")
@@ -31,7 +31,7 @@ public class TempBan implements CommandExecutor {
 		FileConfiguration config = plugin.getConfig();
 		if (sender instanceof Player) {
 			Player p = (Player) sender;
-			String perm = "bansplus.tempban";
+			String perm = "bansplus.mute";
 			if (!p.hasPermission(perm)) {
 				p.sendMessage(Utils.chat(config.getString("Messages.NoPermission").replace("%perm%", perm)));
 				return true;
@@ -39,7 +39,7 @@ public class TempBan implements CommandExecutor {
 		}
 		CommandMessages cmdMsgs = new CommandMessages(plugin);
 		if (args.length == 0) {
-			sender.sendMessage(cmdMsgs.incorrectUsage("/tempban [player] [length] [reason]"));
+			sender.sendMessage(cmdMsgs.incorrectUsage("/mute [player] [length] [reason]"));
 			return true;
 		}
 		if (Bukkit.getOfflinePlayer(args[0]) == null) {
@@ -48,14 +48,14 @@ public class TempBan implements CommandExecutor {
 		}
 		// ban user = GUI
 		if (args.length == 1) {
-			sender.sendMessage(cmdMsgs.incorrectUsage("/tempban [player] [length] [reason]"));
+			sender.sendMessage(cmdMsgs.incorrectUsage("/mute [player] [length] [reason]"));
 			return true;
 		}
 		// tempban user length reason
 
 		// bPlayer = bannedPlayer
-		OfflinePlayer bPlayer = Bukkit.getOfflinePlayer(args[0]);
-		if (bPlayer.isOp() && config.getBoolean("Ban Opped Players") == false) {
+		OfflinePlayer mPlayer = Bukkit.getOfflinePlayer(args[0]);
+		if (mPlayer.isOp() && config.getBoolean("Ban Opped Players") == false) {
 			sender.sendMessage(Utils.chat(config.getString("Messages.Player Is Op")));
 			return true;
 		}
@@ -87,28 +87,30 @@ public class TempBan implements CommandExecutor {
 			return true;
 		}
 
-		String bPlayerUUID = bPlayer.getUniqueId().toString();
-		String bannedBy = "";
+		String mutedBy = "";
 		if (sender instanceof Player) {
 			Player p = (Player) sender;
-			bannedBy = p.getName();
+			mutedBy = p.getName();
 		} else {
-			bannedBy = "Console";
+			mutedBy = "Console";
 		}
 
-		sender.sendMessage(Utils.chat(config.getString("Messages.Temporary Ban").replace("%name%", bPlayer.getName())
-				.replace("%reason%", reason)).replace("%time%", args[1]));
+		sender.sendMessage(Utils.chat(config.getString("Messages.Muted Successfully")
+				.replace("%name%", mPlayer.getName()).replace("%reason%", reason)).replace("%time%", args[1]));
 
-		ConfigBansManager configManager = new ConfigBansManager(plugin);
-		DatabaseBansManager dbManager = new DatabaseBansManager(plugin);
+		ConfigMutesManager configMutesManager = new ConfigMutesManager(plugin);
+		DatabaseMutesManager dbMutesManager = new DatabaseMutesManager(plugin);
 		if (plugin.mysqlEnabled) {
-			dbManager.createPlayer(bPlayer, startDate, endDate, reason, args[0], bannedBy);
+			dbMutesManager.createPlayer(mPlayer, startDate, endDate, reason, args[0], mutedBy);
 		} else {
-			configManager.useConfig(bPlayer, startDate, endDate, reason, args[0], bannedBy);
+			configMutesManager.useConfig(mPlayer, startDate, endDate, reason, args[0], mutedBy);
 		}
-		if (bPlayer.isOnline()) {
-			Player bPlayerOnline = (Player) bPlayer;
-			bPlayerOnline.kickPlayer(Utils.chat(Utils.banMessage(plugin, bPlayerUUID)));
+
+		if (mPlayer.isOnline()) {
+			Player mPlayerOnline = (Player) mPlayer;
+			mPlayerOnline
+					.sendMessage(Utils.chat(config.getString("Messages.To Muted Player").replace("%reason%", reason))
+							.replace("%time%", args[1]));
 		}
 
 		return true;
