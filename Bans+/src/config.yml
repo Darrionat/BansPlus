@@ -38,6 +38,7 @@ Messages:
     NoPermission: "&cYou do not have the permission '%perm%'"
     Muted Successfully: "&cYou muted %name% for %reason% for %time%"
     To Muted Player: "&cYou were muted for %reason% for %time%"
+    Muted: "&cYou are muted for %time% time left"
 
 #Optional: MySQL Connection (Recommended)
 #Tables will automatically be created

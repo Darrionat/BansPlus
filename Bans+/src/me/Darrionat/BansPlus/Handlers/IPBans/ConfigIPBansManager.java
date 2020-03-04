@@ -43,6 +43,7 @@ public class ConfigIPBansManager {
 		FileManager fileManager = new FileManager(plugin);
 		FileConfiguration bPlayersConfig = fileManager.getDataConfig("bannedips");
 		bPlayersConfig.set(ip, null);
+		fileManager.saveConfigFile("bannedips", bPlayersConfig);
 		return;
 	}
 

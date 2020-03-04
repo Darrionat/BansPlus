@@ -53,6 +53,7 @@ public class ConfigMutesManager {
 		FileManager fileManager = new FileManager(plugin);
 		FileConfiguration mutedPlayersConfig = fileManager.getDataConfig("mutedplayers");
 		mutedPlayersConfig.set(uuid, null);
+		fileManager.saveConfigFile("mutedplayers", mutedPlayersConfig);
 		return;
 	}
 

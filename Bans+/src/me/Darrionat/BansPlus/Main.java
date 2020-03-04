@@ -8,10 +8,14 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import me.Darrionat.BansPlus.Commands.Ban;
+import me.Darrionat.BansPlus.Commands.BanInfo;
 import me.Darrionat.BansPlus.Commands.BanList;
 import me.Darrionat.BansPlus.Commands.BansPlus;
 import me.Darrionat.BansPlus.Commands.IPBan;
+import me.Darrionat.BansPlus.Commands.IPBanInfo;
 import me.Darrionat.BansPlus.Commands.Mute;
+import me.Darrionat.BansPlus.Commands.MuteInfo;
+import me.Darrionat.BansPlus.Commands.MuteList;
 import me.Darrionat.BansPlus.Commands.TempBan;
 import me.Darrionat.BansPlus.Commands.Unban;
 import me.Darrionat.BansPlus.Commands.Unmute;
@@ -22,6 +26,7 @@ import me.Darrionat.BansPlus.Handlers.IPBans.ConfigIPBansManager;
 import me.Darrionat.BansPlus.Handlers.IPBans.DatabaseIPBansManager;
 import me.Darrionat.BansPlus.Handlers.Mutes.ConfigMutesManager;
 import me.Darrionat.BansPlus.Handlers.Mutes.DatabaseMutesManager;
+import me.Darrionat.BansPlus.Listeners.AsyncPlayerChat;
 import me.Darrionat.BansPlus.Listeners.PlayerLogin;
 import me.Darrionat.BansPlus.Listeners.PlayerLoginIP;
 import me.Darrionat.BansPlus.UI.BanUI;
@@ -37,16 +42,21 @@ public class Main extends JavaPlugin {
 		// Initializing classes and GUI
 		BanUI.initialize(this);
 		new Ban(this);
-		new TempBan(this);
-		new IPBan(this);
-		new Unban(this);
+		new BanInfo(this);
 		new BanList(this);
 		new BansPlus(this);
+		new IPBan(this);
+		new IPBanInfo(this);
 		new Mute(this);
+		new MuteInfo(this);
+		new MuteList(this);
+		new TempBan(this);
+		new Unban(this);
 		new Unmute(this);
 
 		new PlayerLogin(this);
 		new PlayerLoginIP(this);
+		new AsyncPlayerChat(this);
 
 		new ConfigBansManager(this);
 		new ConfigIPBansManager(this);

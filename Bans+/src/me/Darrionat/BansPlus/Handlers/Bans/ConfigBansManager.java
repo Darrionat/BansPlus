@@ -53,13 +53,14 @@ public class ConfigBansManager {
 		FileManager fileManager = new FileManager(plugin);
 		FileConfiguration bPlayersConfig = fileManager.getDataConfig("bannedplayers");
 		bPlayersConfig.set(uuid, null);
+		fileManager.saveConfigFile("bannedplayers", bPlayersConfig);
 		return;
 	}
 
 	public String getInfo(String uuid, String key) {
 		FileManager fileManager = new FileManager(plugin);
 		FileConfiguration bPlayersConfig = fileManager.getDataConfig("bannedplayers");
-		// Banned By, Start, End, Reason
+		// Banned By, Start, End,Username, Reason
 		String reason = bPlayersConfig.getString(uuid + "." + key);
 		return reason;
 	}

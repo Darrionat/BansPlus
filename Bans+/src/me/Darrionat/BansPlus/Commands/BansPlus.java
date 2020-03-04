@@ -40,11 +40,16 @@ public class BansPlus implements CommandExecutor {
 		sendMessage(sender, "&6/ban [user] &f- GUI to Ban a Player");
 		sendMessage(sender, "&6/ban [user] reason &f- Ban With A Custom Reason");
 		sendMessage(sender, "&6/banlist [player/ip] &f- Lists of Bans for Players or IPs");
+		sendMessage(sender, "&6/mutelist &f- List of Muted Players");
 		sendMessage(sender, "&6/ipban [ip] [reason] &f- Ban an IP");
 		sendMessage(sender, "&6/mute [user] [time] [reason] &f- Mute a Player");
 		sendMessage(sender, "&6/tempban [user] [time] [reason] &f- Temporarily Ban a Player");
-		sendMessage(sender, "&6/unmute [user] &f- Unban a Player");
+		sendMessage(sender, "&6/unmute [user] &f- Unmute a Player");
 		sendMessage(sender, "&6/unban [user/ip] &f- Unban a Player or IP");
+		sendMessage(sender, "&6/baninfo &f- Ban information on a player");
+		sendMessage(sender, "&6/ipbaninfo &f- Ban information on an IP");
+		sendMessage(sender, "&6/muteinfo &f- Mute information on a player");
+
 		return true;
 	}
 

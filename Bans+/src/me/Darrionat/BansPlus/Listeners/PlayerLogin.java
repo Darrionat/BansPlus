@@ -35,8 +35,11 @@ public class PlayerLogin implements Listener {
 		UUID uuid = e.getPlayer().getUniqueId();
 		String uuidString = uuid.toString();
 		String endDateString = "";
+		DatabaseBansManager dbManager = new DatabaseBansManager(plugin);
+		FileManager fileManager = new FileManager(plugin);
+		FileConfiguration bPlayersConfig = fileManager.getDataConfig("bannedplayers");
 		if (plugin.mysqlEnabled) {
-			DatabaseBansManager dbManager = new DatabaseBansManager(plugin);
+
 			if (!dbManager.playerExists(uuid.toString())) {
 				return;
 			}
@@ -48,8 +51,7 @@ public class PlayerLogin implements Listener {
 			endDateString = dbManager.getInfo(uuidString, "END");
 
 		} else {
-			FileManager fileManager = new FileManager(plugin);
-			FileConfiguration bPlayersConfig = fileManager.getDataConfig("bannedplayers");
+
 			if (bPlayersConfig.getConfigurationSection(uuidString) == null) {
 				return;
 			}
@@ -73,6 +75,12 @@ public class PlayerLogin implements Listener {
 
 		long diff = endDate.getTime() - System.currentTimeMillis();
 		if (diff < 0) {
+			if (plugin.mysqlEnabled) {
+				dbManager.removePlayer(uuidString);
+				return;
+			}
+			bPlayersConfig.set(uuidString, null);
+			fileManager.saveConfigFile("bannedplayers", bPlayersConfig);
 			return;
 		}
 

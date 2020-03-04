@@ -16,6 +16,7 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import me.Darrionat.BansPlus.Main;
 import me.Darrionat.BansPlus.Files.FileManager;
 import me.Darrionat.BansPlus.Handlers.Mutes.DatabaseMutesManager;
+import me.Darrionat.BansPlus.Utils.Utils;
 
 public class AsyncPlayerChat implements Listener {
 	private Main plugin;
@@ -34,16 +35,17 @@ public class AsyncPlayerChat implements Listener {
 		UUID uuid = p.getUniqueId();
 		String uuidString = uuid.toString();
 		String endDateString = "";
+		DatabaseMutesManager dbMutesManager = new DatabaseMutesManager(plugin);
+		FileManager fileManager = new FileManager(plugin);
+		FileConfiguration mPlayersConfig = fileManager.getDataConfig("mutedplayers");
 		if (plugin.mysqlEnabled) {
-			DatabaseMutesManager dbMutesManager = new DatabaseMutesManager(plugin);
 			if (!dbMutesManager.playerExists(uuid.toString())) {
 				return;
 			}
 			endDateString = dbMutesManager.getInfo(uuidString, "END");
 
 		} else {
-			FileManager fileManager = new FileManager(plugin);
-			FileConfiguration mPlayersConfig = fileManager.getDataConfig("mutedplayers");
+			
 			if (mPlayersConfig.getConfigurationSection(uuidString) == null) {
 				return;
 			}
@@ -59,18 +61,26 @@ public class AsyncPlayerChat implements Listener {
 
 		diff = endDate.getTime() - System.currentTimeMillis();
 		if (diff < 0) {
+			if (plugin.mysqlEnabled) {
+				dbMutesManager.removePlayer(uuidString);
+				return;
+			}
+			mPlayersConfig.set(uuidString, null);
+			fileManager.saveConfigFile("mutedplayers", mPlayersConfig);
+			
 			return;
 		}
-		muted();
+		sendMuteMsg(p);
 		e.setCancelled(true);
 	}
 
-	public void muted() {
+	public void sendMuteMsg(Player p) {
 		diff = diff / 1000; // Milliseconds to seconds
 		long hours = diff / 3600;
 		long minutes = (diff % 3600) / 60;
 		long seconds = diff % 60;
 		String timeLeft = String.format("%02dh %02dm %02ds", hours, minutes, seconds);
+		p.sendMessage(Utils.chat(plugin.getConfig().getString("Messages.Muted").replace("%time%", timeLeft)));
 
 	}
 }

@@ -1,5 +1,7 @@
 package me.Darrionat.BansPlus.Commands;
 
+import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -42,15 +44,28 @@ public class Unmute implements CommandExecutor {
 		String unmuteMsg = Utils.chat(config.getString("Messages.Unmute Successful").replace("%player%", args[0]));
 
 		String uuid = args[0];
+		@SuppressWarnings("deprecation")
+		OfflinePlayer bPlayer = Bukkit.getOfflinePlayer(args[0]);
+		String muuid = bPlayer.getUniqueId().toString();
 		if (plugin.mysqlEnabled) {
 			if (dbMutesManager.playerExists(uuid)) {
 				dbMutesManager.removePlayer(uuid);
 				sender.sendMessage(unmuteMsg);
 				return true;
 			}
+			if (dbMutesManager.playerExists(muuid)) {
+				dbMutesManager.removePlayer(muuid);
+				sender.sendMessage(unmuteMsg);
+				return true;
+			}
 		} else {
 			if (confMutesManager.playerExists(uuid)) {
 				confMutesManager.removePlayer(uuid);
+				sender.sendMessage(unmuteMsg);
+				return true;
+			}
+			if (confMutesManager.playerExists(muuid)) {
+				confMutesManager.removePlayer(muuid);
 				sender.sendMessage(unmuteMsg);
 				return true;
 			}

@@ -4,8 +4,6 @@ import me.Darrionat.BansPlus.Main;
 import me.Darrionat.BansPlus.Utils.Utils;
 
 public class CommandMessages {
-
-	@SuppressWarnings("unused")
 	private Main plugin;
 
 	public CommandMessages(Main plugin) {
