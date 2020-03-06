@@ -25,6 +25,8 @@ public class Ban implements CommandExecutor {
 		this.plugin = plugin;
 		plugin.getCommand("ban").setExecutor(this);
 	}
+	public static OfflinePlayer bPlayer;
+	public static String bName;
 
 	@SuppressWarnings("deprecation")
 	@Override
@@ -47,27 +49,40 @@ public class Ban implements CommandExecutor {
 			sender.sendMessage(Utils.chat(config.getString("Messages.Invalid Player").replace("%name%", args[0])));
 			return true;
 		}
-		// ban user = GUI
+
+		// ban user reason == No GUI
+
+		// bPlayer = bannedPlayer
+		
+		OfflinePlayer bPlayer = Bukkit.getOfflinePlayer(args[0]);
+		if (bPlayer.isOp() && config.getBoolean("Ban Opped Players") == false) {
+			sender.sendMessage(Utils.chat(config.getString("Messages.Player Is Op")));
+			return true;
+		}
+		if (bPlayer instanceof Player) {
+			Player p = (Player) bPlayer;
+			if (p.hasPermission("bansplus.unbannable")) {
+				sender.sendMessage(Utils.chat(config.getString("Messages.Player Is Op")));
+				return true;
+			}
+		} // ban user = GUI
+		
+		OfflinePlayer player = Bukkit.getOfflinePlayer(args[0]);
+		if (player.getName() == null) {
+			sender.sendMessage(Utils.chat(config.getString("Messages.Invalid Player").replace("%name%", args[0])));
+			return true;
+		}
 		if (args.length == 1) {
 			if (!(sender instanceof Player)) {
 				sender.sendMessage(cmdMsgs.incorrectUsage("/ban [player] [reason]"));
 				return true;
 			}
 			Player p = (Player) sender;
-			p.openInventory(BanUI.GUI(p, plugin));
-			return true;
-		}
-		// ban user reason == No GUI
-
-		// bPlayer = bannedPlayer
-		OfflinePlayer bPlayer = Bukkit.getOfflinePlayer(args[0]);
-		if (bPlayer.isOp() && config.getBoolean("Ban Opped Players") == false) {
-			sender.sendMessage(Utils.chat(config.getString("Messages.Player Is Op")));
-			return true;
-		}
-		OfflinePlayer player = Bukkit.getOfflinePlayer(args[0]);
-		if (player.getName() == null) {
-			sender.sendMessage(Utils.chat(config.getString("Messages.Invalid Player").replace("%name%", args[0])));
+			Ban.bPlayer = bPlayer;
+			Ban.bName = args[0];
+			BanUI banui = new BanUI(plugin);
+			banui.initialize(plugin);
+			p.openInventory(banui.GUI(p));
 			return true;
 		}
 

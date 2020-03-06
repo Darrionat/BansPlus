@@ -1,4 +1,5 @@
 GUI Name: "Ban Player"
+# This includes: bans, mutes, and warns
 Ban Opped Players: false
 IP Ban Opped Players: false
 
@@ -39,6 +40,8 @@ Messages:
     Muted Successfully: "&cYou muted %name% for %reason% for %time%"
     To Muted Player: "&cYou were muted for %reason% for %time%"
     Muted: "&cYou are muted for %time% time left"
+    Warned: "&cYou were warned for %reason%"
+    Warned Player: "&cYou warned %player% for %reason%"
 
 #Optional: MySQL Connection (Recommended)
 #Tables will automatically be created

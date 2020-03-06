@@ -1,0 +1,32 @@
+#Slot:
+#    Amount: 1
+#    Length: 30d
+#    #Length can also be 'Permanent'
+#    Material: RABBIT_FOOT
+#    Name: "&cBhopping"
+#    This will also be the ban reason
+#    Lore:
+#        - Line 1
+#        - Line 2
+#        - Line 3
+# All color codes work
+Rows: 3
+GUIName: "Test"
+1:
+    Amount: 1
+    Length: 30d
+    Material: FEATHER
+    Name: "&cFlying or Jesus Hacks"
+    Lore:
+        - Line 1
+        - Line 2
+        - Line 3
+2:
+    Amount: 1
+    Length: Permanent
+    Material: RABBIT_FOOT
+    Name: "&cBhopping"
+    Lore:
+        - Line 1
+        - Line 2
+        - Line 3

@@ -59,6 +59,13 @@ public class TempBan implements CommandExecutor {
 			sender.sendMessage(Utils.chat(config.getString("Messages.Player Is Op")));
 			return true;
 		}
+		if (bPlayer instanceof Player) {
+			Player p = (Player) bPlayer;
+			if (p.hasPermission("bansplus.unbannable")) {
+				sender.sendMessage(Utils.chat(config.getString("Messages.Player Is Op")));
+				return true;
+			}
+		}
 
 		List<String> reasonArgs = new ArrayList<String>();
 		for (int i = 2; i <= 256; i++) {

@@ -59,6 +59,13 @@ public class Mute implements CommandExecutor {
 			sender.sendMessage(Utils.chat(config.getString("Messages.Player Is Op")));
 			return true;
 		}
+		if (mPlayer instanceof Player) {
+			Player p = (Player) mPlayer;
+			if (p.hasPermission("bansplus.unbannable")) {
+				sender.sendMessage(Utils.chat(config.getString("Messages.Player Is Op")));
+				return true;
+			}
+		}
 		// Not muteable
 
 		List<String> reasonArgs = new ArrayList<String>();

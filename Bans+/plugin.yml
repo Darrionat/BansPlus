@@ -7,7 +7,7 @@ author: Darrionat
 
 commands:
   ban:
-    aliases: [banplus]
+    aliases: [banp]
     usage: </command> player reason
   baninfo:
     aliases: [baninfoplus]
@@ -17,7 +17,7 @@ commands:
     usage: </command> player/ip
   bansplus:
     aliases: [banplus]
-    usage: </command>
+    usage: </command> help/reload
   ipban:
     aliases: [ipbanplus]
     usage: </command> ip reason
@@ -42,6 +42,9 @@ commands:
   unmute:
     aliases: [unmuteplus]
     usage: </command> player
+  warn:
+    aliases: [warnplus]
+    usage: </command> player reason
 permissions:
   bansplus.*:
     description: Gives access to all BansPlus commands
@@ -51,42 +54,54 @@ permissions:
       bansplus.bansplus: true
       bansplus.ipban: true
       banplus.mute: true
+      banplus.reload: true
       banplus.tempban: true
       bansplus.unban: true
       bansplus.unmute: true
+      bansplus.warn: true
+      bansplus.unbannable: true
   bansplus.ban:
-    description: Allows a user to ban players
+    description: Allows a player to ban players
     default: op
   bansplus.baninfo:
-    description: Allows a user to see info about a banned player
+    description: Allows a player to see info about a banned player
     default: op
   bansplus.banlist:
-    description: Allows a user to read the ban list
+    description: Allows a player to read the ban list
     default: op
   bansplus.bansplus:
-    description: Allows a user to read the help section
+    description: Allows a player to read the help section
     default: op
   bansplus.ipban:
-    description: Allows a user to ban an IP
+    description: Allows a player to ban an IP
     default: op
   bansplus.ipbaninfo:
-    description: Allows a user to see info about an IP address
+    description: Allows a player to see info about an IP address
     default: op
   bansplus.mute:
-    description: Allows a user to mute player
+    description: Allows a player to mute player
     default: op
   bansplus.muteinfo:
-    description: Allows a user to see info about a muted information
+    description: Allows a player to see info about a muted information
     default: op
   bansplus.mutelist:
-    description: Allows a user to read the mute list
+    description: Allows a player to read the mute list
+    default: op
+  bansplus.reload:
+    description: Allows a player to reload all yml files
     default: op
   bansplus.tempban:
-    description: Allows a user to temporarily ban a player
+    description: Allows a player to temporarily ban a player
     default: op
   bansplus.unban:
-    description: Allows a user to unban a player
+    description: Allows a player to unban a banned player
     default: op
   bansplus.unmute:
-    description: Allows a user to unmute a player
+    description: Allows a player to unmute a muted player
+    default: op
+  bansplus.warn:
+    description: Allows a player to warn a player
+    default: op
+  bansplus.unbannable:
+    description: Makes a player unbannable
     default: op

@@ -51,6 +51,26 @@ public class Utils {
 
 	}
 
+	public static ItemStack createBanItem(Inventory inv, Material material, int amount, int invSlot,
+			String displayName, List<String> loreString, String length) {
+		ItemStack item;
+		List<String> lore = new ArrayList<String>();
+
+		item = new ItemStack(material, amount);
+
+		ItemMeta meta = item.getItemMeta();
+		meta.setDisplayName(Utils.chat(displayName));
+		lore.add(Utils.chat("&eLength: &f" + length));
+		for (String s : loreString) {
+			lore.add(Utils.chat(s));
+		}
+		meta.setLore(lore);
+		item.setItemMeta(meta);
+		inv.setItem(invSlot - 1, item);
+		return item;
+
+	}
+
 	public static String IPbanMessage(JavaPlugin plugin, String ip) {
 
 		return null;

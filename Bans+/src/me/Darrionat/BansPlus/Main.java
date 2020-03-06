@@ -19,6 +19,7 @@ import me.Darrionat.BansPlus.Commands.MuteList;
 import me.Darrionat.BansPlus.Commands.TempBan;
 import me.Darrionat.BansPlus.Commands.Unban;
 import me.Darrionat.BansPlus.Commands.Unmute;
+import me.Darrionat.BansPlus.Commands.Warn;
 import me.Darrionat.BansPlus.Files.FileManager;
 import me.Darrionat.BansPlus.Handlers.Bans.ConfigBansManager;
 import me.Darrionat.BansPlus.Handlers.Bans.DatabaseBansManager;
@@ -27,6 +28,7 @@ import me.Darrionat.BansPlus.Handlers.IPBans.DatabaseIPBansManager;
 import me.Darrionat.BansPlus.Handlers.Mutes.ConfigMutesManager;
 import me.Darrionat.BansPlus.Handlers.Mutes.DatabaseMutesManager;
 import me.Darrionat.BansPlus.Listeners.AsyncPlayerChat;
+import me.Darrionat.BansPlus.Listeners.InventoryClick;
 import me.Darrionat.BansPlus.Listeners.PlayerLogin;
 import me.Darrionat.BansPlus.Listeners.PlayerLoginIP;
 import me.Darrionat.BansPlus.UI.BanUI;
@@ -39,8 +41,11 @@ public class Main extends JavaPlugin {
 
 	public void onEnable() {
 		this.config = this.getConfig();
+		saveConfigs();
 		// Initializing classes and GUI
-		BanUI.initialize(this);
+		BanUI banui = new BanUI(this);
+		banui.initialize(this);
+
 		new Ban(this);
 		new BanInfo(this);
 		new BanList(this);
@@ -53,10 +58,12 @@ public class Main extends JavaPlugin {
 		new TempBan(this);
 		new Unban(this);
 		new Unmute(this);
+		new Warn(this);
 
 		new PlayerLogin(this);
 		new PlayerLoginIP(this);
 		new AsyncPlayerChat(this);
+		new InventoryClick(this);
 
 		new ConfigBansManager(this);
 		new ConfigIPBansManager(this);
@@ -65,7 +72,6 @@ public class Main extends JavaPlugin {
 		DatabaseIPBansManager dbIPManager = new DatabaseIPBansManager(this);
 		DatabaseMutesManager dbMutesManager = new DatabaseMutesManager(this);
 
-		saveConfigs();
 		if (config.getBoolean("MySQL.Enabled")) {
 			mysqlSetup();
 			dbManager.createBansTable();
@@ -92,6 +98,9 @@ public class Main extends JavaPlugin {
 		}
 		if (fileManager.fileExists("mutedplayers") == false) {
 			fileManager.setup("mutedplayers");
+		}
+		if (fileManager.fileExists("bangui") == false) {
+			this.saveResource("bangui.yml", true);
 		}
 		saveDefaultConfig();
 	}
