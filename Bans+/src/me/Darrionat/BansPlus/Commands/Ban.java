@@ -16,6 +16,7 @@ import me.Darrionat.BansPlus.Main;
 import me.Darrionat.BansPlus.Handlers.Bans.ConfigBansManager;
 import me.Darrionat.BansPlus.Handlers.Bans.DatabaseBansManager;
 import me.Darrionat.BansPlus.UI.BanUI;
+import me.Darrionat.BansPlus.Utils.StaffChannel;
 import me.Darrionat.BansPlus.Utils.Utils;
 
 public class Ban implements CommandExecutor {
@@ -25,6 +26,7 @@ public class Ban implements CommandExecutor {
 		this.plugin = plugin;
 		plugin.getCommand("ban").setExecutor(this);
 	}
+
 	public static OfflinePlayer bPlayer;
 	public static String bName;
 
@@ -53,7 +55,7 @@ public class Ban implements CommandExecutor {
 		// ban user reason == No GUI
 
 		// bPlayer = bannedPlayer
-		
+
 		OfflinePlayer bPlayer = Bukkit.getOfflinePlayer(args[0]);
 		if (bPlayer.isOp() && config.getBoolean("Ban Opped Players") == false) {
 			sender.sendMessage(Utils.chat(config.getString("Messages.Player Is Op")));
@@ -66,7 +68,7 @@ public class Ban implements CommandExecutor {
 				return true;
 			}
 		} // ban user = GUI
-		
+
 		OfflinePlayer player = Bukkit.getOfflinePlayer(args[0]);
 		if (player.getName() == null) {
 			sender.sendMessage(Utils.chat(config.getString("Messages.Invalid Player").replace("%name%", args[0])));
@@ -117,9 +119,9 @@ public class Ban implements CommandExecutor {
 		} else {
 			bannedBy = "Console";
 		}
-
-		sender.sendMessage(Utils.chat(config.getString("Messages.Permanent Ban").replace("%name%", bPlayer.getName())
-				.replace("%reason%", reason)));
+		StaffChannel sChannel = new StaffChannel(plugin);
+		sChannel.sendStaffMessage((Utils.chat(config.getString("Messages.Permanent Ban")
+				.replace("%name%", bPlayer.getName()).replace("%reason%", reason))));
 
 		ConfigBansManager configManager = new ConfigBansManager(plugin);
 		DatabaseBansManager dbManager = new DatabaseBansManager(plugin);

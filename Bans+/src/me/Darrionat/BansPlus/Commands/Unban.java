@@ -13,6 +13,7 @@ import me.Darrionat.BansPlus.Handlers.Bans.ConfigBansManager;
 import me.Darrionat.BansPlus.Handlers.Bans.DatabaseBansManager;
 import me.Darrionat.BansPlus.Handlers.IPBans.ConfigIPBansManager;
 import me.Darrionat.BansPlus.Handlers.IPBans.DatabaseIPBansManager;
+import me.Darrionat.BansPlus.Utils.StaffChannel;
 import me.Darrionat.BansPlus.Utils.Utils;
 
 public class Unban implements CommandExecutor {
@@ -50,37 +51,38 @@ public class Unban implements CommandExecutor {
 		String buuid = bPlayer.getUniqueId().toString();
 
 		// Player UUID
+		StaffChannel sChannel = new StaffChannel(plugin);
 		String uuid = args[0];
 		if (plugin.mysqlEnabled) {
 			if (dbIPManager.ipExists(ip)) {
 				dbIPManager.removeIP(ip);
-				sender.sendMessage(unbanMsg);
+				sChannel.sendStaffMessage(unbanMsg);
 				return true;
 			}
 			if (dbManager.playerExists(buuid)) {
 				dbManager.removePlayer(buuid);
-				sender.sendMessage(unbanMsg);
+				sChannel.sendStaffMessage(unbanMsg);
 				return true;
 			}
 			if (dbManager.playerExists(uuid)) {
 				dbManager.removePlayer(uuid);
-				sender.sendMessage(unbanMsg);
+				sChannel.sendStaffMessage(unbanMsg);
 				return true;
 			}
 		} else {
 			if (confManager.playerExists(buuid)) {
 				confManager.removePlayer(buuid);
-				sender.sendMessage(unbanMsg);
+				sChannel.sendStaffMessage(unbanMsg);
 				return true;
 			}
 			if (confIPManager.ipExists(ip)) {
 				confIPManager.removeIP(ip);
-				sender.sendMessage(unbanMsg);
+				sChannel.sendStaffMessage(unbanMsg);
 				return true;
 			}
 			if (confManager.playerExists(uuid)) {
 				confManager.removePlayer(uuid);
-				sender.sendMessage(unbanMsg);
+				sChannel.sendStaffMessage(unbanMsg);
 				return true;
 			}
 		}

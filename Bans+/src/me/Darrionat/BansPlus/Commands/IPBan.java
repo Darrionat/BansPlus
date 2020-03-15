@@ -13,6 +13,7 @@ import org.bukkit.entity.Player;
 import me.Darrionat.BansPlus.Main;
 import me.Darrionat.BansPlus.Handlers.IPBans.ConfigIPBansManager;
 import me.Darrionat.BansPlus.Handlers.IPBans.DatabaseIPBansManager;
+import me.Darrionat.BansPlus.Utils.StaffChannel;
 import me.Darrionat.BansPlus.Utils.Utils;
 
 public class IPBan implements CommandExecutor {
@@ -79,8 +80,9 @@ public class IPBan implements CommandExecutor {
 		} else {
 			configIPManager.createIP(args[0].replace(".", "-"), startDate, reason, bannedBy);
 		}
-		sender.sendMessage(
-				Utils.chat(config.getString("Messages.IP Ban").replace("%ip%", args[0]).replace("%reason%", reason)));
+		StaffChannel sChannel = new StaffChannel(plugin);
+		sChannel.sendStaffMessage((
+				Utils.chat(config.getString("Messages.IP Ban").replace("%ip%", args[0]).replace("%reason%", reason))));
 
 		return true;
 	}

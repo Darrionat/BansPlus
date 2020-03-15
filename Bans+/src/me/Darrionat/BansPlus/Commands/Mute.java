@@ -15,6 +15,7 @@ import org.bukkit.entity.Player;
 import me.Darrionat.BansPlus.Main;
 import me.Darrionat.BansPlus.Handlers.Mutes.ConfigMutesManager;
 import me.Darrionat.BansPlus.Handlers.Mutes.DatabaseMutesManager;
+import me.Darrionat.BansPlus.Utils.StaffChannel;
 import me.Darrionat.BansPlus.Utils.Utils;
 
 public class Mute implements CommandExecutor {
@@ -102,9 +103,9 @@ public class Mute implements CommandExecutor {
 		} else {
 			mutedBy = "Console";
 		}
-
-		sender.sendMessage(Utils.chat(config.getString("Messages.Muted Successfully")
-				.replace("%name%", mPlayer.getName()).replace("%reason%", reason)).replace("%time%", args[1]));
+		StaffChannel sChannel = new StaffChannel(plugin);
+		sChannel.sendStaffMessage((Utils.chat(config.getString("Messages.Muted Successfully")
+				.replace("%name%", mPlayer.getName()).replace("%reason%", reason)).replace("%time%", args[1])));
 
 		ConfigMutesManager configMutesManager = new ConfigMutesManager(plugin);
 		DatabaseMutesManager dbMutesManager = new DatabaseMutesManager(plugin);

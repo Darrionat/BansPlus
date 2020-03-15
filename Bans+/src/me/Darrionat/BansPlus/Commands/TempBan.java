@@ -15,6 +15,7 @@ import org.bukkit.entity.Player;
 import me.Darrionat.BansPlus.Main;
 import me.Darrionat.BansPlus.Handlers.Bans.ConfigBansManager;
 import me.Darrionat.BansPlus.Handlers.Bans.DatabaseBansManager;
+import me.Darrionat.BansPlus.Utils.StaffChannel;
 import me.Darrionat.BansPlus.Utils.Utils;
 
 public class TempBan implements CommandExecutor {
@@ -102,8 +103,8 @@ public class TempBan implements CommandExecutor {
 		} else {
 			bannedBy = "Console";
 		}
-
-		sender.sendMessage(Utils.chat(config.getString("Messages.Temporary Ban").replace("%name%", bPlayer.getName())
+		StaffChannel sChannel = new StaffChannel(plugin);
+		sChannel.sendStaffMessage(Utils.chat(config.getString("Messages.Temporary Ban").replace("%name%", bPlayer.getName())
 				.replace("%reason%", reason)).replace("%time%", args[1]));
 
 		ConfigBansManager configManager = new ConfigBansManager(plugin);

@@ -4,29 +4,182 @@
 #    #Length can also be 'Permanent'
 #    Material: RABBIT_FOOT
 #    Name: "&cBhopping"
-#    This will also be the ban reason
+#    #The name will also be the ban reason
 #    Lore:
-#        - Line 1
-#        - Line 2
-#        - Line 3
+#        - "Line 1"
+#        - "Line 2"
+#        - "Line 3"
 # All color codes work
-Rows: 3
-GUIName: "Test"
-1:
+
+# s = seconds
+# m = minutes
+# d = days
+# y = years
+Rows: 5
+GUIName: "Bans+"
+11:
+    Amount: 1
+    Length: 1y
+    Material: GLOWSTONE_DUST
+    Name: "&eX-Ray"
+    Lore:
+        - "&cPlayer looking through blocks while mining"
+12:
+    Amount: 1
+    Length: 30d
+    Material: DIAMOND_PICKAXE
+    Name: "&cAuto Mining"
+    Lore:
+        - "&cA newer type of hack that allows"
+        - "&ca player to afk mine with a bot"
+13:
     Amount: 1
     Length: 30d
     Material: FEATHER
-    Name: "&cFlying or Jesus Hacks"
+    Name: "&cFlying"
     Lore:
-        - Line 1
-        - Line 2
-        - Line 3
-2:
+        - "&cA common hack that allows a user to fly"
+14:
+    Amount: 1
+    Length: 30d
+    Material: RABBIT_FOOT
+    Name: "&cBunny Hop (Bhop)"
+    Lore:
+        - "&cWhen a player is jumping around"
+        - "&cquickly Unfair advantage"
+15:
+    Amount: 1
+    Length: 30d
+    Material: SUGAR
+    Name: "&cVelocity (Anti-Knockback)"
+    Lore:
+        - "&cWhen a player doesn't take knockback"
+        - "&cthey are using velocity hacks"
+16:
+    Amount: 1
+    Length: 30d
+    Material: BARRIER
+    Name: "&cScaffold"
+    Lore:
+        - "&cA type of hack that builds"
+        - "&cautomatically for the player"
+17:
+    Amount: 1
+    Length: 30d
+    Material: BOW
+    Name: "&cKillaura (Aimbot)"
+    Lore:
+        - "&cWhen the player is hitting players"
+        - "&calways or hits every bow shot"
+        - "&cCan be seen with head whips"
+20:
+    Amount: 1
+    Length: 30d
+    Material: DIAMOND_SWORD
+    Name: "&cReach"
+    Lore:
+        - "&cWhen the player can hit farther"
+        - "&cthan normal 3 blocks"
+21:
+    Amount: 1
+    Length: 30d
+    Material: WATER_BUCKET
+    Name: "&cDolphin (Auto Swim)"
+    Lore:
+        - "&cAllows a player to swim without"
+        - "&cslowing down in water"
+22:
+    Amount: 1
+    Length: 30d
+    Material: NETHER_STAR
+    Name: "&cJesus"
+    Lore:
+        - "&cAllows a player to walk"
+        - "&con water"
+23:
+    Amount: 1
+    Length: 30d
+    Material: CLOCK
+    Name: "&cAnti-AFK"
+    Lore:
+        - "&cMoves the player to prevent"
+        - "&cgoing afk"
+24:
     Amount: 1
     Length: Permanent
-    Material: RABBIT_FOOT
-    Name: "&cBhopping"
+    Material: NAME_TAG
+    Name: "&cInappropriate Name"
     Lore:
-        - Line 1
-        - Line 2
-        - Line 3
+        - "&cBad name Plain and simple"
+        - "&cPermanent Ban"
+25:
+    Amount: 1
+    Length: 30d
+    Material: ROTTEN_FLESH
+    Name: "&cHacking"
+    Lore:
+        - "&cAny other hacks"
+        - "&cMisc"
+26:
+    Amount: 1
+    Length: 30d
+    Material: TNT
+    Name: "&cGreifing"
+    Lore:
+        - "&cDestroying builds"
+        - "&cwithout permission"
+29:
+    Amount: 1
+    Length: 30d
+    Material: CHEST
+    Name: "&cStealing"
+    Lore:
+        - "&cTaking from builds"
+        - "&cwithout permission"
+30:
+    Amount: 1
+    Length: 7d
+    Material: FLINT_AND_STEEL
+    Name: "&cTrolling"
+    Lore:
+        - "&cTricking other players or"
+        - "&cgiving false information"
+31:
+    Amount: 1
+    Length: 180d
+    Material: DIAMOND
+    Name: "&cScamming"
+    Lore:
+        - "&cDoing a false trade"
+        - "&cwith another player"
+32:
+    Amount: 1
+    Length: 1y
+    Material: BOOK
+    Name: "&cDoxxing"
+    Lore:
+        - "&cReleasing another player's"
+        - "&cpersonal information"
+33:
+    Amount: 1
+    Length: Permanent
+    Material: COBWEB
+    Name: "&cDDOS Threats"
+    Lore:
+        - "&cThreatening to do a DDOS"
+        - "&cattack on the server"
+34:
+    Amount: 1
+    Length: 270d
+    Material: REDSTONE_TORCH
+    Name: "&cAlt Accounts"
+    Lore:
+        - "&cUsing multiple accounts"
+        - "&cfor an advantage"
+35:
+    Amount: 1
+    Length: Permanent
+    Material: BEDROCK
+    Name: "&cPermanent Ban"
+    Lore:
+        - "&cMisc Reasons"

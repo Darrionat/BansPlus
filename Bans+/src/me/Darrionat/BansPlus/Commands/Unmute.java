@@ -11,6 +11,7 @@ import org.bukkit.entity.Player;
 import me.Darrionat.BansPlus.Main;
 import me.Darrionat.BansPlus.Handlers.Mutes.ConfigMutesManager;
 import me.Darrionat.BansPlus.Handlers.Mutes.DatabaseMutesManager;
+import me.Darrionat.BansPlus.Utils.StaffChannel;
 import me.Darrionat.BansPlus.Utils.Utils;
 
 public class Unmute implements CommandExecutor {
@@ -47,26 +48,29 @@ public class Unmute implements CommandExecutor {
 		@SuppressWarnings("deprecation")
 		OfflinePlayer bPlayer = Bukkit.getOfflinePlayer(args[0]);
 		String muuid = bPlayer.getUniqueId().toString();
+
+		StaffChannel sChannel = new StaffChannel(plugin);
+		
 		if (plugin.mysqlEnabled) {
 			if (dbMutesManager.playerExists(uuid)) {
 				dbMutesManager.removePlayer(uuid);
-				sender.sendMessage(unmuteMsg);
+				sChannel.sendStaffMessage(unmuteMsg);
 				return true;
 			}
 			if (dbMutesManager.playerExists(muuid)) {
 				dbMutesManager.removePlayer(muuid);
-				sender.sendMessage(unmuteMsg);
+				sChannel.sendStaffMessage(unmuteMsg);
 				return true;
 			}
 		} else {
 			if (confMutesManager.playerExists(uuid)) {
 				confMutesManager.removePlayer(uuid);
-				sender.sendMessage(unmuteMsg);
+				sChannel.sendStaffMessage(unmuteMsg);
 				return true;
 			}
 			if (confMutesManager.playerExists(muuid)) {
 				confMutesManager.removePlayer(muuid);
-				sender.sendMessage(unmuteMsg);
+				sChannel.sendStaffMessage(unmuteMsg);
 				return true;
 			}
 		}

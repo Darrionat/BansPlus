@@ -1,7 +1,7 @@
 name: BansPlus
 main: me.Darrionat.BansPlus.Main
 description: A banning plugin made simple
-version: 1.0
+version: 1.1
 api-version: 1.13
 author: Darrionat
 
@@ -54,6 +54,7 @@ permissions:
       bansplus.bansplus: true
       bansplus.ipban: true
       banplus.mute: true
+      bansplus.staff: true
       banplus.reload: true
       banplus.tempban: true
       bansplus.unban: true
@@ -89,6 +90,9 @@ permissions:
     default: op
   bansplus.reload:
     description: Allows a player to reload all yml files
+    default: op
+  bansplus.staff:
+    description: Allows a player to recieve all staff messages
     default: op
   bansplus.tempban:
     description: Allows a player to temporarily ban a player

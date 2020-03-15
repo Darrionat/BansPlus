@@ -29,9 +29,12 @@ import me.Darrionat.BansPlus.Handlers.Mutes.ConfigMutesManager;
 import me.Darrionat.BansPlus.Handlers.Mutes.DatabaseMutesManager;
 import me.Darrionat.BansPlus.Listeners.AsyncPlayerChat;
 import me.Darrionat.BansPlus.Listeners.InventoryClick;
+import me.Darrionat.BansPlus.Listeners.PlayerJoin;
 import me.Darrionat.BansPlus.Listeners.PlayerLogin;
 import me.Darrionat.BansPlus.Listeners.PlayerLoginIP;
 import me.Darrionat.BansPlus.UI.BanUI;
+import me.Darrionat.BansPlus.Utils.StaffChannel;
+import me.Darrionat.BansPlus.Utils.UpdateChecker;
 import me.Darrionat.BansPlus.Utils.Utils;
 
 public class Main extends JavaPlugin {
@@ -65,6 +68,8 @@ public class Main extends JavaPlugin {
 		new AsyncPlayerChat(this);
 		new InventoryClick(this);
 
+		new StaffChannel(this);
+
 		new ConfigBansManager(this);
 		new ConfigIPBansManager(this);
 		new ConfigMutesManager(this);
@@ -81,7 +86,33 @@ public class Main extends JavaPlugin {
 		} else {
 			mysqlEnabled = false;
 		}
+		// Update-Checker
+		new PlayerJoin(this);
+		checkUpdates();
 
+	}
+
+	public void checkUpdates() {
+		int id = 76083;
+		String version = "v" + this.getDescription().getVersion();
+		String name = this.getDescription().getName();
+		UpdateChecker updater = new UpdateChecker(this, id);
+		try {
+			if (updater.checkForUpdates()) {
+
+				getServer().getConsoleSender()
+						.sendMessage(Utils.chat("&7" + name + ": &bYou are currently running version " + version));
+				getServer().getConsoleSender().sendMessage(Utils.chat("&bAn update for &7" + name + " &f("
+						+ UpdateChecker.getLatestVersion() + ") &bis available at:"));
+				getServer().getConsoleSender()
+						.sendMessage(Utils.chat("https://www.spigotmc.org/resources/bans.76083/"));
+			} else {
+				getServer().getConsoleSender().sendMessage("[" + name + "] Plugin is up to date! - " + version);
+			}
+		} catch (Exception e) {
+			getLogger().info("Could not check for updates! Stacktrace:");
+			e.printStackTrace();
+		}
 	}
 
 	public void onDisable() {

@@ -11,6 +11,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 import me.Darrionat.BansPlus.Main;
+import me.Darrionat.BansPlus.Utils.StaffChannel;
 import me.Darrionat.BansPlus.Utils.Utils;
 
 public class Warn implements CommandExecutor {
@@ -76,8 +77,11 @@ public class Warn implements CommandExecutor {
 			reason = reason + " " + word;
 		}
 		wPlayer.sendMessage(Utils.chat(config.getString("Messages.Warned").replace("%reason%", reason)));
-		sender.sendMessage(Utils.chat(config.getString("Messages.Warned Player").replace("%player%", wPlayer.getName())
-				.replace("%reason%", reason)));
+
+		StaffChannel sChannel = new StaffChannel(plugin);
+
+		sChannel.sendStaffMessage(Utils.chat(config.getString("Messages.Warned Player")
+				.replace("%player%", wPlayer.getName()).replace("%reason%", reason)));
 
 		return true;
 	}

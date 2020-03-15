@@ -10,7 +10,6 @@ IP Ban Opped Players: false
 # %timeleft% - Time Left
 # %reason% - Shows the ban reason
 # %uuid% - Shows the banned player's uuid
-
 #This is what the player will see when banned
 Ban Message:
     - "&cYou have been banned from &6Your Network"
@@ -43,6 +42,9 @@ Messages:
     Warned: "&cYou were warned for %reason%"
     Warned Player: "&cYou warned %player% for %reason%"
 
+#The staff channel is a place where staff can talk or see new alerts
+StaffChannel:
+    Prefix: "&c[Staff]&f: "
 #Optional: MySQL Connection (Recommended)
 #Tables will automatically be created
 MySQL:

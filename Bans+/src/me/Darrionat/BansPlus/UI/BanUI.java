@@ -19,6 +19,7 @@ import me.Darrionat.BansPlus.Commands.Ban;
 import me.Darrionat.BansPlus.Files.FileManager;
 import me.Darrionat.BansPlus.Handlers.Bans.ConfigBansManager;
 import me.Darrionat.BansPlus.Handlers.Bans.DatabaseBansManager;
+import me.Darrionat.BansPlus.Utils.StaffChannel;
 import me.Darrionat.BansPlus.Utils.Utils;
 
 public class BanUI {
@@ -68,6 +69,11 @@ public class BanUI {
 			String name = keySection.getString("Name");
 			List<String> lore = keySection.getStringList("Lore");
 			String length = keySection.getString("Length");
+			if (material == null) {
+				p.sendMessage(Utils.chat("&4[Bans+] &cError: " + keySection.getString("Material")
+						+ " is a not a material in bangui.yml (Slot=" + String.valueOf(slot) + ")"));
+				continue;
+			}
 			Utils.createBanItem(inv, material, amt, slot, name, lore, length);
 
 		}
@@ -76,6 +82,7 @@ public class BanUI {
 	}
 
 	public void clicked(Player p, int slot, ItemStack clicked, Inventory inv) {
+		FileConfiguration config = plugin.getConfig();
 		slot++;
 		if (clicked.getItemMeta().getDisplayName() == null) {
 			return;
@@ -94,6 +101,7 @@ public class BanUI {
 
 		Date endDate = null;
 
+		// If length is null
 		if (!banType.getString("Length").equalsIgnoreCase("Permanent")) {
 			endDate = utils.getEndDate(length, p);
 			if (endDate == null) {
@@ -110,20 +118,35 @@ public class BanUI {
 		bPlayer = Ban.bPlayer;
 		String bName = Ban.bName;
 
-		if (plugin.mysqlEnabled) {
+		if (banType.getString("Length").equalsIgnoreCase("Permanent")) {
+			ConfigBansManager configManager = new ConfigBansManager(plugin);
 			DatabaseBansManager dbManager = new DatabaseBansManager(plugin);
 
-			dbManager.createPlayer(bPlayer, startDate, endDate, reason, bName, p.getName());
+			if (plugin.mysqlEnabled) {
+				dbManager.createPlayer(bPlayer, startDate, endDate, reason, bPlayer.getName(), p.getName());
+			} else {
+				configManager.useConfig(bPlayer, startDate, endDate, reason, bPlayer.getName(), p.getName());
+			}
 			p.closeInventory();
-			p.sendMessage(Utils.chat(plugin.getConfig().getString("Messages.Temporary Ban")
-					.replace("%name%", bPlayer.getName()).replace("%reason%", reason)).replace("%time%", length));
+			StaffChannel sChannel = new StaffChannel(plugin);
+			sChannel.sendStaffMessage((Utils.chat(config.getString("Messages.Permanent Ban")
+					.replace("%name%", bPlayer.getName()).replace("%reason%", reason))));
 			return;
 		}
-		ConfigBansManager confManager = new ConfigBansManager(plugin);
 
-		confManager.useConfig(bPlayer, startDate, endDate, reason, bName, p.getName());
+		if (plugin.mysqlEnabled) {
+			DatabaseBansManager dbManager = new DatabaseBansManager(plugin);
+			dbManager.createPlayer(bPlayer, startDate, endDate, reason, bName, p.getName());
+
+		} else {
+			ConfigBansManager confManager = new ConfigBansManager(plugin);
+			confManager.useConfig(bPlayer, startDate, endDate, reason, bName, p.getName());
+			
+
+		}
 		p.closeInventory();
-		p.sendMessage(Utils.chat(plugin.getConfig().getString("Messages.Temporary Ban")
+		StaffChannel sChannel = new StaffChannel(plugin);
+		sChannel.sendStaffMessage(Utils.chat(config.getString("Messages.Temporary Ban")
 				.replace("%name%", bPlayer.getName()).replace("%reason%", reason)).replace("%time%", length));
 
 	}
