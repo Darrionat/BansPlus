@@ -38,7 +38,7 @@ Messages:
     NoPermission: "&cYou do not have the permission '%perm%'"
     Muted Successfully: "&cYou muted %name% for %reason% for %time%"
     To Muted Player: "&cYou were muted for %reason% for %time%"
-    Muted: "&cYou are muted for %time% time left"
+    Muted: "&cYou have %time% time left before you can speak"
     Warned: "&cYou were warned for %reason%"
     Warned Player: "&cYou warned %player% for %reason%"
 

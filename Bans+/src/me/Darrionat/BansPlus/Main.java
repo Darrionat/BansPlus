@@ -36,6 +36,7 @@ import me.Darrionat.BansPlus.UI.BanUI;
 import me.Darrionat.BansPlus.Utils.StaffChannel;
 import me.Darrionat.BansPlus.Utils.UpdateChecker;
 import me.Darrionat.BansPlus.Utils.Utils;
+import me.Darrionat.BansPlus.bStats.Metrics;
 
 public class Main extends JavaPlugin {
 
@@ -86,6 +87,7 @@ public class Main extends JavaPlugin {
 		} else {
 			mysqlEnabled = false;
 		}
+		new Metrics(this);
 		// Update-Checker
 		new PlayerJoin(this);
 		checkUpdates();
