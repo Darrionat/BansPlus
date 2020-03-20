@@ -11,6 +11,7 @@ import me.Darrionat.BansPlus.Commands.Ban;
 import me.Darrionat.BansPlus.Commands.BanInfo;
 import me.Darrionat.BansPlus.Commands.BanList;
 import me.Darrionat.BansPlus.Commands.BansPlus;
+import me.Darrionat.BansPlus.Commands.CPS;
 import me.Darrionat.BansPlus.Commands.IPBan;
 import me.Darrionat.BansPlus.Commands.IPBanInfo;
 import me.Darrionat.BansPlus.Commands.Mute;
@@ -28,6 +29,7 @@ import me.Darrionat.BansPlus.Handlers.IPBans.DatabaseIPBansManager;
 import me.Darrionat.BansPlus.Handlers.Mutes.ConfigMutesManager;
 import me.Darrionat.BansPlus.Handlers.Mutes.DatabaseMutesManager;
 import me.Darrionat.BansPlus.Listeners.AsyncPlayerChat;
+import me.Darrionat.BansPlus.Listeners.CPSTest;
 import me.Darrionat.BansPlus.Listeners.InventoryClick;
 import me.Darrionat.BansPlus.Listeners.PlayerJoin;
 import me.Darrionat.BansPlus.Listeners.PlayerLogin;
@@ -54,6 +56,7 @@ public class Main extends JavaPlugin {
 		new BanInfo(this);
 		new BanList(this);
 		new BansPlus(this);
+		new CPS(this);
 		new IPBan(this);
 		new IPBanInfo(this);
 		new Mute(this);
@@ -64,6 +67,7 @@ public class Main extends JavaPlugin {
 		new Unmute(this);
 		new Warn(this);
 
+		new CPSTest(this);
 		new PlayerLogin(this);
 		new PlayerLoginIP(this);
 		new AsyncPlayerChat(this);

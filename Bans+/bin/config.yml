@@ -41,6 +41,9 @@ Messages:
     Muted: "&cYou have %time% time left before you can speak"
     Warned: "&cYou were warned for %reason%"
     Warned Player: "&cYou warned %player% for %reason%"
+    Player Is Offline: "&cThat player is offline"
+    Not A Number: "&cUse a duration in seconds to test for"
+    CPSTesting: "&6Testing %player% for %duration%s"
 
 #The staff channel is a place where staff can talk or see new alerts
 StaffChannel:

@@ -87,6 +87,7 @@ public class BansPlus implements CommandExecutor {
 		cmds.add("&6/ipbaninfo &f- Ban information on an IP");
 		cmds.add("&6/muteinfo &f- Mute information on a player");
 		cmds.add("&6/warn [player] [reason] &f- Warn on a player");
+		cmds.add("&6/cps [player] [duration] &f-Test a player's average clicks per second");
 		return cmds;
 	}
 
@@ -102,7 +103,7 @@ public class BansPlus implements CommandExecutor {
 			return;
 		}
 		listSize = getCmdMsgs().size();
-		pageAmt = listSize / 5;
+		pageAmt = (listSize + 5 - 1) / 5;
 		if (page > pageAmt) {
 			helpMessagePage(sender, "1");
 			return;

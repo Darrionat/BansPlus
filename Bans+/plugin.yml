@@ -1,7 +1,7 @@
 name: BansPlus
 main: me.Darrionat.BansPlus.Main
 description: A banning plugin made simple
-version: 1.11
+version: 1.2
 api-version: 1.13
 author: Darrionat
 
@@ -18,6 +18,9 @@ commands:
   bansplus:
     aliases: [banplus]
     usage: </command> help/reload
+  cps:
+    aliases: [cpsplus]
+    usage: </command> player duration
   ipban:
     aliases: [ipbanplus]
     usage: </command> ip reason
@@ -52,6 +55,7 @@ permissions:
       bansplus.ban: true
       banplus.banlist: true
       bansplus.bansplus: true
+      bansplus.cps: true
       bansplus.ipban: true
       banplus.mute: true
       bansplus.staff: true
@@ -72,6 +76,9 @@ permissions:
     default: op
   bansplus.bansplus:
     description: Allows a player to read the help section
+    default: op
+  bansplus.cps:
+    description: Allows a user to test a player for average clicks per second
     default: op
   bansplus.ipban:
     description: Allows a player to ban an IP
