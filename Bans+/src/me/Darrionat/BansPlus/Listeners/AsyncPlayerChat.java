@@ -10,6 +10,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
@@ -29,7 +30,7 @@ public class AsyncPlayerChat implements Listener {
 	private Date endDate;
 	private long diff;
 
-	@EventHandler
+	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onChat(AsyncPlayerChatEvent e) {
 		Player p = e.getPlayer();
 		UUID uuid = p.getUniqueId();

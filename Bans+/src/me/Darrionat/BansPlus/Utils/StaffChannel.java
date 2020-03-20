@@ -25,6 +25,7 @@ public class StaffChannel {
 		}
 		System.out.println(prefix + msg);
 	}
-	// Future Bungee-Messaging
 
+	// Future Bungee-Messaging
+	
 }

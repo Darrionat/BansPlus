@@ -1,7 +1,7 @@
 name: BansPlus
 main: me.Darrionat.BansPlus.Main
 description: A banning plugin made simple
-version: 1.2
+version: 1.3
 api-version: 1.13
 author: Darrionat
 
@@ -36,6 +36,9 @@ commands:
   mutelist:
     aliases: [mutelistplus]
     usage: </command>
+  staffchat:
+    aliases: [sc, scplus, staffchatplus]
+    usage: </command> toggle/message
   tempban:
     aliases: [tempbanplus]
     usage: </command> player time reason
@@ -100,6 +103,9 @@ permissions:
     default: op
   bansplus.staff:
     description: Allows a player to recieve all staff messages
+    default: op
+  bansplus.staffchat:
+    description: Allows a player to send to the staff channel
     default: op
   bansplus.tempban:
     description: Allows a player to temporarily ban a player

@@ -88,6 +88,8 @@ public class BansPlus implements CommandExecutor {
 		cmds.add("&6/muteinfo &f- Mute information on a player");
 		cmds.add("&6/warn [player] [reason] &f- Warn on a player");
 		cmds.add("&6/cps [player] [duration] &f-Test a player's average clicks per second");
+		cmds.add("&6/sc toggle &f-Toggle staff chat");
+		cmds.add("&6/sc [message] &f-Send a message to staff chat");
 		return cmds;
 	}
 

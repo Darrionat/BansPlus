@@ -17,6 +17,7 @@ import me.Darrionat.BansPlus.Commands.IPBanInfo;
 import me.Darrionat.BansPlus.Commands.Mute;
 import me.Darrionat.BansPlus.Commands.MuteInfo;
 import me.Darrionat.BansPlus.Commands.MuteList;
+import me.Darrionat.BansPlus.Commands.StaffChat;
 import me.Darrionat.BansPlus.Commands.TempBan;
 import me.Darrionat.BansPlus.Commands.Unban;
 import me.Darrionat.BansPlus.Commands.Unmute;
@@ -62,6 +63,7 @@ public class Main extends JavaPlugin {
 		new Mute(this);
 		new MuteInfo(this);
 		new MuteList(this);
+		new StaffChat(this);
 		new TempBan(this);
 		new Unban(this);
 		new Unmute(this);
