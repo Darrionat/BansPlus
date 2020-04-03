@@ -14,7 +14,6 @@ public class StaffChannel {
 	}
 
 	public void sendStaffMessage(String s) {
-		// TODO Auto-generated constructor stub
 		String prefix = Utils.chat(plugin.getConfig().getString("StaffChannel.Prefix"));
 		String msg = Utils.chat(s);
 		for (Player p : Bukkit.getOnlinePlayers()) {

@@ -165,10 +165,7 @@ public class Main extends JavaPlugin {
 			}
 			Class.forName("com.mysql.jdbc.Driver");
 			setConnection(DriverManager.getConnection(
-					"jdbc:mysql://" + this.host + ":" + this.port + "/" + this.database, this.username, ""));
-			// setConnection(DriverManager.getConnection(
-			// "jdbc:mysql://" + this.host + ":" + this.port + "/" + this.database,
-			// this.username, this.password));
+					"jdbc:mysql://" + this.host + ":" + this.port + "/" + this.database, this.username, this.password));
 			System.out.println(Utils.chat("&a" + this.getDescription().getName() + " MySQL Connected"));
 		} catch (SQLException exe) {
 			exe.printStackTrace();
