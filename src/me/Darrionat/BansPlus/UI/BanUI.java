@@ -131,6 +131,11 @@ public class BanUI {
 			StaffChannel sChannel = new StaffChannel(plugin);
 			sChannel.sendStaffMessage((Utils.chat(config.getString("Messages.Permanent Ban")
 					.replace("%name%", bPlayer.getName()).replace("%reason%", reason))));
+
+			if (bPlayer.isOnline()) {
+				Player bPlayerOnline = (Player) bPlayer;
+				bPlayerOnline.kickPlayer(Utils.chat(Utils.banMessage(plugin, bPlayer.getUniqueId().toString())));
+			}
 			return;
 		}
 
@@ -141,13 +146,16 @@ public class BanUI {
 		} else {
 			ConfigBansManager confManager = new ConfigBansManager(plugin);
 			confManager.useConfig(bPlayer, startDate, endDate, reason, bName, p.getName());
-			
 
 		}
 		p.closeInventory();
 		StaffChannel sChannel = new StaffChannel(plugin);
 		sChannel.sendStaffMessage(Utils.chat(config.getString("Messages.Temporary Ban")
 				.replace("%name%", bPlayer.getName()).replace("%reason%", reason)).replace("%time%", length));
+		if (bPlayer.isOnline()) {
+			Player bPlayerOnline = (Player) bPlayer;
+			bPlayerOnline.kickPlayer(Utils.chat(Utils.banMessage(plugin, bPlayer.getUniqueId().toString())));
+		}
 
 	}
 
